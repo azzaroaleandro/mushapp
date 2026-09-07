@@ -11,7 +11,7 @@ test('explore, filters, favorites, details, dates and calendar',async({page})=>{
  await expect(page.locator('.condition.promising').first()).toBeVisible();
  await page.selectOption('#region','TN');await expect(page.locator('.zone-card')).toHaveCount(3);
  await page.locator('[data-save="lagorai"]').click();await page.check('#favorites-only');await expect(page.locator('.zone-card')).toHaveCount(1);
- await page.locator('[data-detail="lagorai"]').click();await expect(page.getByRole('heading',{name:'Lagorai · Valsugana',exact:true})).toBeVisible();
+ await page.locator('[data-detail="lagorai"]').click();await expect(page.locator('#zone-dialog').getByRole('heading',{name:'Lagorai · Valsugana',exact:true})).toBeVisible();
  await expect(page.locator('#zone-detail')).toContainText('Non è un’autorizzazione');
  await page.locator('[data-day="2026-09-12"]').click();await expect(page.locator('#zone-detail')).toContainText('molto limitata');
  await page.getByRole('button',{name:'Chiudi',exact:true}).click();

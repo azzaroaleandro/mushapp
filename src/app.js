@@ -45,7 +45,7 @@ function initMap(){
  if(map||!window.L)return;
  $('#map').replaceChildren();
  map=window.L.map('map',{scrollWheelZoom:false}).setView([45.12,10.7],7);
- window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:16,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+ window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:16,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).on('tileerror',()=>{document.querySelector('.map-note').textContent='Sfondo cartografico parzialmente non disponibile. I punti indicano aree ampie, non luoghi di raccolta verificati o accessi consentiti.';}).addTo(map);
  markerLayer=window.L.layerGroup().addTo(map);renderMap(visibleAreas());
 }
 function renderMap(rows){

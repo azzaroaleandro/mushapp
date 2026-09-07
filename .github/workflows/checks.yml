@@ -20,12 +20,16 @@ jobs:
           node-version: '22'
       - name: Install pinned browser test runner
         run: npm install --ignore-scripts --no-audit --no-fund
+      - name: Record dependency lock
+        run: node -e "console.log('MUSHAPP_LOCK=' + require('fs').readFileSync('package-lock.json', 'utf8').replace(/\\n/g, ''))"
       - name: Unit tests
         run: npm test
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
       - name: Browser tests and visual records
         run: npm run test:e2e
+      - name: Check live weather integration
+        run: node scripts/check-live-weather.mjs
       - name: Assemble static app
         run: |
           mkdir -p site/src

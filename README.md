@@ -40,6 +40,9 @@ GitHub Pages aggiorna l'anteprima quando cambia il branch sorgente. I file sono 
 
 Il workflow manuale **Publish GitHub Pages** resta disponibile come alternativa per passare in futuro alla sorgente **GitHub Actions**: richiede che il workflow sia presente nel branch principale e che Settings → Pages sia configurato con tale sorgente. Non va usato insieme alla modalità corrente da branch.
 
+## Verifica del catalogo v0.4
+Il 7 settembre 2026 sono passati **36 test unitari e 19 test Chromium**, compreso il caricamento e la decodifica effettiva di **80 fotografie su 80**. Verificati ricerca per nomi e sinonimi, stati non verificati, dieci forme, assenza di upload della foto personale e layout a 320, 390 e 768 px. Il controllo meteo reale resta attivo sulle 13 aree pilota. [Esecuzione verificata](https://github.com/azzaroaleandro/mushapp/actions/runs/34139791181).
+
 ## Verifica della prima versione
 Il 7 settembre 2026 sono passati **22 test del motore, dati e diario**, **7 test Chromium**, oltre alla verifica del servizio meteo reale su tutte le sei aree (43 giorni per area). [Esecuzione verificata](https://github.com/azzaroaleandro/mushapp/actions/runs/34111205177).
 

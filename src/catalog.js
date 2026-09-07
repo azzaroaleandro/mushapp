@@ -1,6 +1,6 @@
 import {CATALOG,EDIBILITY,HEALTH_SOURCE} from './catalog-data.js';
 import {MEDIA} from './catalog-media.js';
-import {searchTaxa,gbifMedia,safeUrl,MEDIA_HOSTS} from './catalog-api.js';
+import {searchTaxa,gbifMedia,safeUrl,MEDIA_HOSTS} from './catalog-api.js?v=0.2.1';
 const $=s=>document.querySelector(s);
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const normalize=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();

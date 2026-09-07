@@ -1,4 +1,4 @@
-import {initCatalog} from './catalog.js';
+import {initCatalog} from './catalog.js?v=0.2.1';
 import {PROVINCES,provinceFor,inTerritory,distanceKm} from './places.js';
 import {recommend} from './recommendations.js';
 import {AREAS,SPECIES,REGIONS,MONTHS,SOURCES} from './data.js';

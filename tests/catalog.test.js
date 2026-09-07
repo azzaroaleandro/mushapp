@@ -1,0 +1,47 @@
+import {MEDIA} from '../src/catalog-media.js';
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {CATALOG,EDIBILITY} from '../src/catalog-data.js';
+import {filterCatalog} from '../src/catalog.js';
+import {normalizeTaxa,gbifSearchUrl,safeUrl,gbifMedia,MEDIA_HOSTS} from '../src/catalog-api.js';
+test('all curated species have explicit sourced edibility and cautions',()=>{
+ assert.equal(CATALOG.length,80);assert.equal(new Set(CATALOG.map(t=>t.id)).size,CATALOG.length);
+ for(const t of CATALOG){assert.ok(EDIBILITY[t.status]);assert.equal(new URL(t.source).protocol,'https:');assert.ok(t.sourceLabel.length>5);assert.ok(t.description.length>50);assert.ok(t.shapes.length>0);assert.ok(t.caution.length>30);assert.ok(t.similar.length>10);}
+ assert.equal(CATALOG.find(t=>t.id==='phalloides').status,'deadly');
+ assert.equal(CATALOG.find(t=>t.id==='esculenta').status,'toxic');
+ assert.equal(CATALOG.find(t=>t.id==='mellea').status,'conditional');
+});
+test('catalog searches common names, scientific names and synonyms',()=>{
+ assert.ok(filterCatalog('finferlo').some(t=>t.latin==='Cantharellus cibarius'));
+ assert.ok(filterCatalog('Boletus aestivalis').some(t=>t.id==='reticulatus'));
+ assert.equal(filterCatalog('porcino','deadly').length,0);
+ assert.ok(filterCatalog('','deadly').every(t=>t.status==='deadly'));
+});
+test('world search is restricted to accepted species in fungi',()=>{
+ const url=new URL(gbifSearchUrl('Boletus',24));assert.equal(url.searchParams.get('highertaxonKey'),'5');assert.equal(url.searchParams.get('offset'),'24');
+ const a={key:1,canonicalName:'Amanita phalloides',kingdom:'Fungi',rank:'SPECIES',taxonomicStatus:'ACCEPTED'};
+ const result=normalizeTaxa({count:3,endOfRecords:true,results:[a,{...a,key:2,kingdom:'Animalia'},{...a,key:3,taxonomicStatus:'SYNONYM'}]});
+ assert.equal(result.results.length,1);assert.equal(result.results[0].status,'unknown');assert.equal(result.results[0].name,null);
+});
+test('external media requires permitted HTTPS host, credit and license',async()=>{
+ assert.equal(safeUrl('https://thumb.wikimedia.org.attacker.example/photo.jpg',MEDIA_HOSTS),null);
+ assert.equal(safeUrl('javascript:alert(1)',['gbif.org']),null);
+ assert.equal(safeUrl('https://gbif.org.attacker.example/a',['gbif.org']),null);
+ const fetcher=async()=>({ok:true,json:async()=>({results:[{identifier:'https://upload.wikimedia.org/example.jpg',license:'All rights reserved',creator:'Photographer'}]})});
+ assert.equal(await gbifMedia(1,{fetcher}),null);
+});
+
+test('every curated species has a photograph with license and attribution',()=>{
+ for(const t of CATALOG){const m=MEDIA[t.id];assert.ok(m,t.id);assert.ok(safeUrl(m.url,MEDIA_HOSTS));assert.ok(m.author.length>0);assert.match(m.license,/CC|Public domain/);assert.ok(m.source.startsWith('https://commons.wikimedia.org/'));}
+});
+
+test('new names and statuses remain explicit rather than inferred from appearance',()=>{
+ for(const [id,status] of Object.entries({virosa:'deadly',marginata:'deadly',rubellus:'deadly',olearius:'toxic',formosa:'toxic',morchella:'conditional',rubescens:'conditional',felleus:'inedible',crispa:'unknown'}))assert.equal(CATALOG.find(t=>t.id===id).status,status,id);
+ assert.equal(filterCatalog('pioppino')[0].id,'aegerita');
+ assert.equal(filterCatalog('Agrocybe aegerita')[0].id,'aegerita');
+ assert.equal(filterCatalog('dormiente')[0].id,'marzuolus');
+ assert.ok(filterCatalog('finferlo').some(t=>t.id==='aurantiaca'));
+ assert.equal(new Set(CATALOG.map(t=>t.latin)).size,CATALOG.length);
+ assert.equal(Object.keys(MEDIA).length,CATALOG.length);
+ assert.ok(!MEDIA.marzuolus.title.includes('Bresadola'));
+});

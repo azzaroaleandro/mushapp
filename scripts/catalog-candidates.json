@@ -1,0 +1,478 @@
+[
+  {
+    "id": "scabrum",
+    "latin": "Leccinum scabrum",
+    "name": "Porcinello grigio",
+    "slug": "leccinum-scabrum",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/leccinum-scabrum/"
+  },
+  {
+    "id": "urinascens",
+    "latin": "Agaricus urinascens",
+    "name": "Prataiolo maggiore",
+    "slug": "agaricus-macrosporus",
+    "aliases": [
+      "Agaricus macrosporus"
+    ],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/agaricus-macrosporus/"
+  },
+  {
+    "id": "aegerita",
+    "latin": "Cyclocybe aegerita",
+    "name": "Pioppino",
+    "slug": "agrocybe-aegerita",
+    "aliases": [
+      "Agrocybe aegerita"
+    ],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/agrocybe-aegerita/"
+  },
+  {
+    "id": "pescaprae",
+    "latin": "Albatrellus pes-caprae",
+    "name": "Piede di capra",
+    "slug": "albatrellus-pes-caprae",
+    "aliases": [
+      "Scutiger pes-caprae"
+    ],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/albatrellus-pes-caprae/"
+  },
+  {
+    "id": "gambosa",
+    "latin": "Calocybe gambosa",
+    "name": "Prugnolo",
+    "slug": "calocybe-gambosa",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/calocybe-gambosa/"
+  },
+  {
+    "id": "prunulus",
+    "latin": "Clitopilus prunulus",
+    "name": "Prugnolo bastardo",
+    "slug": "clitopilus-prunulus",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/clitopilus-prunulus/"
+  },
+  {
+    "id": "comatus",
+    "latin": "Coprinus comatus",
+    "name": "Coprino chiomato",
+    "slug": "coprinus-comatus",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/coprinus-comatus/"
+  },
+  {
+    "id": "praestans",
+    "latin": "Cortinarius praestans",
+    "name": "Cortinario prestante",
+    "slug": "cortinarius-praestans",
+    "aliases": [
+      "Phlegmacium praestans"
+    ],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/cortinarius-praestans/"
+  },
+  {
+    "id": "hepatica",
+    "latin": "Fistulina hepatica",
+    "name": "Lingua di bue",
+    "slug": "fistulina-hepatica",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/fistulina-hepatica/"
+  },
+  {
+    "id": "frondosa",
+    "latin": "Grifola frondosa",
+    "name": "Grifone",
+    "slug": "grifola-frondosa",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/grifola-frondosa/"
+  },
+  {
+    "id": "repandum",
+    "latin": "Hydnum repandum",
+    "name": "Steccherino dorato",
+    "slug": "hydnum-repandum",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/hydnum-repandum/"
+  },
+  {
+    "id": "rufescens",
+    "latin": "Hydnum rufescens",
+    "name": "Steccherino aranciato",
+    "slug": "hydnum-rufescens",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/hydnum-rufescens/"
+  },
+  {
+    "id": "russula",
+    "latin": "Hygrophorus russula",
+    "name": "Lardaiolo vinato",
+    "slug": "hygrophorus-russula",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/hygrophorus-russula/"
+  },
+  {
+    "id": "deliciosus",
+    "latin": "Lactarius deliciosus",
+    "name": "Sanguinello",
+    "slug": "lactarius-deliciosus",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/lactarius-deliciosus/"
+  },
+  {
+    "id": "salmonicolor",
+    "latin": "Lactarius salmonicolor",
+    "name": "Lattario color salmone",
+    "slug": "lactarius-salmonicolor",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/lactarius-salmonicolor/"
+  },
+  {
+    "id": "gigantea",
+    "latin": "Calvatia gigantea",
+    "name": "Vescia gigante",
+    "slug": "langermania-gigantea",
+    "aliases": [
+      "Langermannia gigantea",
+      "Langermania gigantea"
+    ],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/langermania-gigantea/"
+  },
+  {
+    "id": "aurantiacum",
+    "latin": "Leccinum aurantiacum",
+    "name": "Porcinello rosso",
+    "slug": "leccinum-aurantiacum",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/leccinum-aurantiacum/"
+  },
+  {
+    "id": "nuda",
+    "latin": "Lepista nuda",
+    "name": "Agarico violetto",
+    "slug": "lepista-nuda",
+    "aliases": [
+      "Clitocybe nuda",
+      "Collybia nuda"
+    ],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/lepista-nuda/"
+  },
+  {
+    "id": "decastes",
+    "latin": "Lyophyllum decastes",
+    "name": "Agarico aggregato",
+    "slug": "lyophyllum-decastes",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/lyophyllum-decastes/"
+  },
+  {
+    "id": "oreades",
+    "latin": "Marasmius oreades",
+    "name": "Gambe secche",
+    "slug": "marasmius-oreades",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/marasmius-oreades/"
+  },
+  {
+    "id": "morchella",
+    "latin": "Morchella esculenta",
+    "name": "Spugnola gialla",
+    "slug": "morchella-esculenta-rotunda",
+    "aliases": [
+      "Morchella esculenta var. rotunda"
+    ],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/morchella-esculenta-rotunda/"
+  },
+  {
+    "id": "ostreatus",
+    "latin": "Pleurotus ostreatus",
+    "name": "Gelone",
+    "slug": "pleurotus-ostreatus",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/pleurotus-ostreatus/"
+  },
+  {
+    "id": "botrytis",
+    "latin": "Ramaria botrytis",
+    "name": "Ditola rossa",
+    "slug": "ramaria-botrytis",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/ramaria-botrytis/"
+  },
+  {
+    "id": "caperatus",
+    "latin": "Cortinarius caperatus",
+    "name": "Foliota grinzosa",
+    "slug": "rozites-caperatus",
+    "aliases": [
+      "Rozites caperatus"
+    ],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/rozites-caperatus/"
+  },
+  {
+    "id": "virescens",
+    "latin": "Russula virescens",
+    "name": "Colombina verde",
+    "slug": "russula-virescens",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/russula-virescens/"
+  },
+  {
+    "id": "granulatus",
+    "latin": "Suillus granulatus",
+    "name": "Pinarolo granuloso",
+    "slug": "suillus-granulatus",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/suillus-granulatus/"
+  },
+  {
+    "id": "grevillei",
+    "latin": "Suillus grevillei",
+    "name": "Larcino",
+    "slug": "suillus-grevillei",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/suillus-grevillei/"
+  },
+  {
+    "id": "luteus",
+    "latin": "Suillus luteus",
+    "name": "Pinarolo",
+    "slug": "suillus-luteus",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/suillus-luteus/"
+  },
+  {
+    "id": "portentosum",
+    "latin": "Tricholoma portentosum",
+    "name": "Cicalotto",
+    "slug": "tricholoma-portentosum",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/tricholoma-portentosum/"
+  },
+  {
+    "id": "terreum",
+    "latin": "Tricholoma terreum",
+    "name": "Moretta",
+    "slug": "tricholoma-terreum",
+    "aliases": [],
+    "category": "commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/commestibili/tricholoma-terreum/"
+  },
+  {
+    "id": "virosa",
+    "latin": "Amanita virosa",
+    "name": "Amanita virosa",
+    "slug": "amanita-virosa",
+    "aliases": [],
+    "category": "funghi-velenosi-e-non-commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/funghi-velenosi-e-non-commestibili/amanita-virosa/"
+  },
+  {
+    "id": "atramentaria",
+    "latin": "Coprinopsis atramentaria",
+    "name": "Coprino atramentario",
+    "slug": "coprinus-atramentarius",
+    "aliases": [
+      "Coprinus atramentarius"
+    ],
+    "category": "funghi-velenosi-e-non-commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/funghi-velenosi-e-non-commestibili/coprinus-atramentarius/"
+  },
+  {
+    "id": "torminosus",
+    "latin": "Lactarius torminosus",
+    "name": "Peveraccio delle coliche",
+    "slug": "lactarius-torminosus",
+    "aliases": [],
+    "category": "funghi-velenosi-e-non-commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/funghi-velenosi-e-non-commestibili/lactarius-torminosus/"
+  },
+  {
+    "id": "cristata",
+    "latin": "Lepiota cristata",
+    "name": "Lepiota crestata",
+    "slug": "lepiota-cristata",
+    "aliases": [],
+    "category": "funghi-velenosi-e-non-commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/funghi-velenosi-e-non-commestibili/lepiota-cristata/"
+  },
+  {
+    "id": "olearius",
+    "latin": "Omphalotus olearius",
+    "name": "Fungo dell'olivo",
+    "slug": "omphalotus-olearius",
+    "aliases": [],
+    "category": "funghi-velenosi-e-non-commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/funghi-velenosi-e-non-commestibili/omphalotus-olearius/"
+  },
+  {
+    "id": "formosa",
+    "latin": "Ramaria formosa",
+    "name": "Ditola formosa",
+    "slug": "ramaria-formosa",
+    "aliases": [],
+    "category": "funghi-velenosi-e-non-commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/funghi-velenosi-e-non-commestibili/ramaria-formosa/"
+  },
+  {
+    "id": "pardinum",
+    "latin": "Tricholoma pardinum",
+    "name": "Agarico tigrato",
+    "slug": "tricholoma-pardinum",
+    "aliases": [],
+    "category": "funghi-velenosi-e-non-commestibili",
+    "source": "https://natura.provincia.cuneo.it/funghi/funghi-velenosi-e-non-commestibili/tricholoma-pardinum/"
+  },
+  {
+    "id": "marzuolus",
+    "latin": "Hygrophorus marzuolus",
+    "name": "Marzuolo",
+    "aliases": []
+  },
+  {
+    "id": "felleus",
+    "latin": "Tylopilus felleus",
+    "name": "Porcino del fiele",
+    "aliases": []
+  },
+  {
+    "id": "marginata",
+    "latin": "Galerina marginata",
+    "name": "Galerina marginata",
+    "aliases": []
+  },
+  {
+    "id": "rubellus",
+    "latin": "Cortinarius rubellus",
+    "name": "Cortinario rubello",
+    "aliases": [
+      "Cortinarius speciosissimus"
+    ]
+  },
+  {
+    "id": "deterrimus",
+    "latin": "Lactarius deterrimus",
+    "name": "Sanguinello dell'abete rosso",
+    "aliases": []
+  },
+  {
+    "id": "badius",
+    "latin": "Imleria badia",
+    "name": "Boleto baio",
+    "aliases": [
+      "Boletus badius",
+      "Xerocomus badius"
+    ]
+  },
+  {
+    "id": "vesca",
+    "latin": "Russula vesca",
+    "name": "Colombina commestibile",
+    "aliases": []
+  },
+  {
+    "id": "aurea",
+    "latin": "Russula aurea",
+    "name": "Colombina dorata",
+    "aliases": []
+  },
+  {
+    "id": "integra",
+    "latin": "Russula integra",
+    "name": "Colombina integra",
+    "aliases": []
+  },
+  {
+    "id": "rubescens",
+    "latin": "Amanita rubescens",
+    "name": "Tignosa vinata",
+    "aliases": []
+  },
+  {
+    "id": "vaginata",
+    "latin": "Amanita vaginata",
+    "name": "Bubbola grigia",
+    "aliases": []
+  },
+  {
+    "id": "citrina",
+    "latin": "Amanita citrina",
+    "name": "Tignosa citrina",
+    "aliases": []
+  },
+  {
+    "id": "porphyria",
+    "latin": "Amanita porphyria",
+    "name": "Tignosa porfirina",
+    "aliases": []
+  },
+  {
+    "id": "nebularis",
+    "latin": "Clitocybe nebularis",
+    "name": "Nebbiolo",
+    "aliases": []
+  },
+  {
+    "id": "aurantiaca",
+    "latin": "Hygrophoropsis aurantiaca",
+    "name": "Falso finferlo",
+    "aliases": []
+  },
+  {
+    "id": "tubaeformis",
+    "latin": "Craterellus tubaeformis",
+    "name": "Finferla bruna",
+    "aliases": [
+      "Cantharellus tubaeformis"
+    ]
+  },
+  {
+    "id": "lutescens",
+    "latin": "Craterellus lutescens",
+    "name": "Finferla",
+    "aliases": [
+      "Cantharellus lutescens"
+    ]
+  },
+  {
+    "id": "crispa",
+    "latin": "Sparassis crispa",
+    "name": "Cavolfiore dei boschi",
+    "aliases": []
+  },
+  {
+    "id": "versicolor",
+    "latin": "Trametes versicolor",
+    "name": "Tramete variopinta",
+    "aliases": []
+  }
+]

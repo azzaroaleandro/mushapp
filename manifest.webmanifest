@@ -1,0 +1,20 @@
+{
+  "id": "./",
+  "name": "Mushapp — Il bosco al momento giusto",
+  "short_name": "Mushapp",
+  "description": "Meteo, stagioni e diario per andare a funghi",
+  "lang": "it",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f5ee",
+  "theme_color": "#183d32",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

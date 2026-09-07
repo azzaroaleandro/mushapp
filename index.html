@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#183d32"><meta name="description" content="Scegli quando esplorare i boschi di Trentino ed Emilia-Romagna. Meteo, stagioni e diario delle tue uscite a funghi.">
+<title>Mushapp — Il bosco, al momento giusto</title>
+<link rel="icon" href="./icon.svg" type="image/svg+xml"><link rel="manifest" href="./manifest.webmanifest">
+<link rel="stylesheet" href="./styles.css?v=0.4.0">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script type="module" src="./src/app.js?v=0.4.1"></script>
+</head>
+<body>
+<a class="skip" href="#main">Vai al contenuto</a>
+<div class="app-shell">
+<aside class="sidebar">
+<a class="brand" href="#explore" aria-label="Mushapp, esplora"><img src="./icon.svg" width="42" height="42" alt=""><span>mushapp<span class="brand-dot">.</span></span></a>
+<p class="brand-caption">OGNI USCITA, UNA SCOPERTA</p>
+<nav aria-label="Navigazione principale">
+<a href="#explore" data-nav="explore"><span aria-hidden="true">◈</span> Esplora</a>
+<a href="#calendar" data-nav="calendar"><span aria-hidden="true">▦</span> Stagioni</a>
+<a href="#catalog" data-nav="catalog"><span aria-hidden="true">♧</span> Catalogo</a>
+<a href="#journal" data-nav="journal" aria-label="Il mio diario"><span aria-hidden="true">▤</span> Diario</a>
+<a href="#method" data-nav="method" aria-label="Come funziona"><span aria-hidden="true">◎</span> Info</a>
+</nav>
+<div class="sidebar-bottom"><span class="eyebrow">IL NOSTRO TERRITORIO</span><p>Trentino<br>Emilia-Romagna</p><div class="version"><i></i> Prima stagione · v0.4</div></div>
+</aside>
+<main id="main" tabindex="-1">
+<header class="topbar"><span id="page-label">Esplora i boschi</span><span class="top-date" id="today-label"></span><span class="pilot-badge">PROGETTO PILOTA</span></header>
+<section id="view-explore" class="view">
+<div class="hero">
+ <div class="hero-copy"><span class="eyebrow light">ASCOLTA IL RITMO DEL BOSCO</span><h1>La prossima uscita<br>comincia <em>qui.</em></h1><p>Meteo e boschi intorno a Campiglio, per scegliere quando partire.</p><a href="#zone-list" class="hero-link">Esplora le zone <span aria-hidden="true">↗</span></a></div>
+ <svg class="forest-art" viewBox="0 0 460 310" role="img" aria-label="Illustrazione di porcini tra felci e alberi">
+ <defs><linearGradient id="cap" x2=".7" y2="1"><stop stop-color="#d69355"/><stop offset="1" stop-color="#985431"/></linearGradient><linearGradient id="stem" x2=".4" y2="1"><stop stop-color="#f3e6cc"/><stop offset="1" stop-color="#d5c3a3"/></linearGradient></defs>
+ <circle cx="284" cy="132" r="103" fill="#446151" opacity=".65"/><circle cx="360" cy="70" r="33" fill="#d7bb7b" opacity=".8"/>
+ <path d="M71 274V84m-26 86 26-53 34 49M27 225l44-76 45 71M379 271V125m-28 66 28-41 27 46m-58 46 31-53 45 60" fill="none" stroke="#74947c" stroke-width="3"/>
+ <path d="M125 276c18-34 34-34 52-2M299 277c25-29 63-19 82 4" fill="none" stroke="#8aa98a" stroke-width="2"/>
+ <ellipse cx="245" cy="280" rx="134" ry="16" fill="#102d27" opacity=".7"/>
+ <path d="M233 162c-1 36-7 61-22 97-5 16 47 27 63 9-10-36-12-75-12-108Z" fill="url(#stem)"/>
+ <path d="M144 165c3-64 48-111 104-98 52 12 84 53 83 91-31 24-143 36-187 7Z" fill="url(#cap)"/>
+ <path d="M146 165c46 17 130 10 185-7-5 28-148 45-185 7Z" fill="#ead8b8"/>
+ <path d="M185 106c18-19 38-26 61-20" fill="none" stroke="#e9b57b" stroke-width="5" stroke-linecap="round" opacity=".65"/>
+ <path d="M144 230l-9 42c7 10 29 13 35 2l-7-45" fill="url(#stem)"/>
+ <path d="M105 230c2-34 35-55 59-43 22 9 39 28 39 46-22 12-74 14-98-3Z" fill="#b87342"/>
+ <path d="M104 230c28 7 66 6 99 3-7 15-76 21-99-3" fill="#ead8b8"/>
+ <path d="M336 284c-8-39 3-62 18-79m-15 49-22-14m24 1 20-10m-18-4-11-19M106 282c-4-34-22-52-40-61m35 36 10-17m-15 3-25-3" stroke="#b6bf8c" stroke-width="3" fill="none" stroke-linecap="round"/>
+ <g fill="#d8c999"><circle cx="115" cy="87" r="3"/><circle cx="347" cy="155" r="3"/><circle cx="197" cy="44" r="2"/><circle cx="84" cy="189" r="2"/></g>
+ </svg>
+ <div class="hero-caption"><span class="tiny-dot"></span> Si comincia dai porcini</div>
+</div>
+<div class="section-intro"><div><span class="eyebrow">LA TUA PROSSIMA USCITA</span><h2>Dove andiamo?</h2></div><button id="refresh" class="button secondary" type="button">↻ Aggiorna meteo</button></div>
+<div class="filters">
+<label>Territorio<select id="region"><option value="all">Tutti i territori</option><option value="TN">Trentino</option><option value="ER">Emilia-Romagna</option></select></label>
+<label>Provincia<select id="province"></select></label>
+<label>Fungo<select id="species"></select></label>
+<label>Quando<select id="date"></select></label>
+<label class="nearby-filter"><input id="nearby" type="checkbox" checked> Entro 40 km da Campiglio</label>
+<label class="favorite-filter"><input id="favorites-only" type="checkbox"> Solo salvati</label>
+</div>
+<div class="data-status" id="data-status" role="status" aria-live="polite"></div>
+<section id="recommendations" aria-labelledby="recommend-title"></section>
+<div class="explore-switch" role="group" aria-label="Visualizzazione delle zone"><button type="button" id="show-list" aria-pressed="true" aria-controls="zone-list">Elenco</button><button type="button" id="show-map" aria-pressed="false" aria-controls="map">Mappa</button></div><div class="explore-layout" id="explore-layout" data-mode="list">
+<div class="zone-column"><div class="list-heading"><h3 id="zone-heading">Zone pilota</h3><span>Ordinate per segnali meteo</span></div><div id="zone-list" class="zone-list"></div></div>
+<aside class="map-column" aria-label="Mappa delle zone"><div class="map-card"><div class="map-header"><h3>Uno sguardo al territorio</h3><span class="map-key"><i></i> Aree pilota</span></div><div id="map" role="region" aria-label="Mappa indicativa delle aree pilota"><div class="map-loading">Caricamento della mappa…</div></div><p class="map-note">I punti rappresentano aree ampie: non sono luoghi di raccolta verificati né indicazioni di accesso.</p></div><div class="field-note"><span class="eyebrow">UN APPUNTO PRIMA DI PARTIRE</span><h3>La pioggia è un indizio,<br>non un appuntamento.</h3><p>Non esiste una regola fissa dei “10 giorni”. Conta anche come stava il bosco prima che piovesse.</p><a href="#method">Scopri cosa osserviamo <span aria-hidden="true">→</span></a></div></aside>
+</div>
+<div class="season-teaser" id="season-teaser"></div>
+</section>
+<section id="view-calendar" class="view" hidden><div class="page-intro"><span class="eyebrow">IL CALENDARIO DEL BOSCO</span><h1>Ogni fungo ha il suo tempo.</h1><p>Finestre indicative per i boschi dei due territori. Quota, esposizione e andamento dell’anno possono anticiparle o spostarle.</p></div><label class="month-picker">Esplora il mese <select id="calendar-month"></select></label><div id="season-cards" class="season-cards"></div><div class="panel calendar-panel"><h2>Un anno nel bosco</h2><div class="calendar-scroll"><table id="calendar-table"></table></div><p class="muted">● Finestra tipica · <strong>●</strong> periodo spesso più rappresentativo. Non è una previsione di presenza.</p></div><p class="safety-note">Il calendario suggerisce cosa studiare e cercare con una persona esperta. Non identifica un esemplare e non ne certifica la commestibilità. <a href="#method">Fonti e controllo micologico →</a></p></section>
+<section id="view-catalog" class="view" hidden>
+<div class="page-intro catalog-intro"><h1>Il catalogo del bosco.</h1><p>Impara a conoscere ciò che incontri.</p></div>
+<button id="catalog-observe" class="field-entry" type="button" aria-expanded="false" aria-controls="field-guide"><span class="field-camera-symbol" aria-hidden="true">◎</span><span><strong>Non conosco il nome</strong><small>Foto di confronto e forme da osservare</small></span><span aria-hidden="true">→</span></button>
+<section id="field-guide" class="field-guide" aria-label="Confronto per aspetto" hidden>
+<div class="field-heading"><h2>Guarda, poi confronta.</h2><button id="field-back" class="text-button" type="button">← Cerca per nome</button></div>
+<p class="field-lead">Fotografa il fungo, poi scegli le forme che vedi. La foto è un riferimento: non viene analizzata.</p>
+<div class="field-photo-tools"><label class="button file-label">Scatta foto<input id="field-camera" type="file" accept="image/jpeg,image/png,image/webp" capture="environment"></label><label class="button secondary file-label">Dalla galleria<input id="field-gallery" type="file" accept="image/jpeg,image/png,image/webp"></label></div>
+<p id="field-photo-state" class="small muted" role="status">Foto facoltativa: puoi iniziare anche dai disegni.</p>
+<p id="field-photo-error" class="error-text" role="alert"></p>
+<figure id="field-photo-frame" hidden><img id="field-photo-preview" alt="La tua foto, ancora da identificare"><figcaption><span>Solo su questo dispositivo, fino alla chiusura o al ricaricamento della pagina.</span><button id="field-photo-remove" class="text-button" type="button">Rimuovi foto</button></figcaption></figure>
+<details class="field-tips"><summary>Come osservare</summary><p>Guarda il cappello, la parte inferiore e il gambo. Osserva senza assaggiare; evita di raccogliere esemplari solo per provare l’app. Le immagini cambiano con luce, età e umidità.</p></details>
+<div class="shape-heading"><h3>Che aspetto ha?</h3><button id="shape-reset" class="text-button" type="button">Non so / tutte</button></div>
+<p class="small muted">Puoi scegliere più forme se sei in dubbio.</p>
+<div id="shape-options" class="shape-options" role="group" aria-label="Forme da confrontare"></div>
+<p class="field-scope">Il confronto copre solo le <span data-catalog-count>80</span> schede del catalogo: il fungo trovato può non esserci. Apri una scheda per affiancarla alla tua foto.</p>
+</section>
+<div class="catalog-safety"><strong>Specie commestibile ≠ esemplare identificato.</strong><details><summary>Prima di raccogliere e consumare</summary><p>La somiglianza in foto non identifica il fungo trovato. Prima del consumo fai controllare l’esemplare da un ispettorato micologico. <a href="https://www.salute.gov.it/new/it/tema/sistema-di-controllo-della-sicurezza-alimentare/funghi-consumiamoli-sicurezza/" target="_blank" rel="noopener noreferrer">Indicazioni del Ministero della Salute ↗</a></p></details></div>
+<div class="catalog-tabs" role="group" aria-label="Tipo di catalogo"><button type="button" id="catalog-local" aria-pressed="true">Schede del bosco · <span data-catalog-count>80</span></button><button type="button" id="catalog-world" aria-pressed="false">Indice mondiale GBIF ↗</button></div>
+<form id="catalog-search-form" class="catalog-filters"><label>Cerca un nome<input id="catalog-query" type="search" maxlength="100" placeholder="Porcino, Boletus edulis, finferlo…"></label><label id="catalog-status-label">Commestibilità della specie<select id="catalog-status"><option value="all">Tutte le categorie</option><option value="edible">Commestibile · specie</option><option value="conditional">Commestibilità condizionata</option><option value="inedible">Non commestibile</option><option value="unknown">Commestibilità non verificata</option><option value="toxic">Velenoso / tossico</option><option value="deadly">Velenoso · anche mortale</option></select></label><button class="button" type="submit">Cerca</button></form>
+<details class="catalog-about"><summary>Copertura e nomi del catalogo</summary><p id="catalog-scope" class="small muted"></p><p class="small muted">Boletus è un genere; “porcino” è un nome comune usato per più specie. I nomi locali possono indicare funghi diversi.</p></details><p id="catalog-status-message" role="status" aria-live="polite" class="small"></p>
+<div id="catalog-grid" class="catalog-grid"></div><div id="catalog-pagination" class="catalog-pagination" hidden><button class="button secondary" id="catalog-prev" type="button">← Precedenti</button><span id="catalog-page" class="small"></span><button class="button secondary" id="catalog-next" type="button">Successivi →</button></div>
+</section>
+<section id="view-journal" class="view" hidden><div class="page-intro"><span class="eyebrow">LE TUE TRACCE NEL BOSCO</span><h1>Il bello resta nel diario.</h1><p>Annota anche le uscite senza ritrovamenti: aiutano a capire il bosco quanto un cestino pieno.</p></div><div class="journal-toolbar"><button id="new-entry" class="button">+ Nuova uscita</button><button id="export-journal" class="button secondary">Esporta diario</button><label class="button secondary file-label">Importa diario<input id="import-journal" type="file" accept=".json,application/json"></label></div><div class="privacy-note">Il diario è privato e salvato in questo browser. Non è sincronizzato tra dispositivi o amici; esportalo per conservarne una copia. Le note esportate sono incluse nel file.</div><div id="journal-list"></div></section>
+<section id="view-method" class="view" hidden><div class="page-intro"><span class="eyebrow">POCHE PROMESSE, INDIZI CHIARI</span><h1>Una bussola per esplorare.</h1><p>Mushapp confronta le condizioni ambientali delle aree pilota. I segnali favorevoli non sono una probabilità di trovare funghi.</p></div><div id="method-content"></div></section>
+<footer><span>mushapp. <span class="muted">Ci vediamo nel bosco.</span></span><a href="#method">Dati, fonti e limiti</a><span class="muted">Trentino · Emilia-Romagna</span></footer>
+</main>
+</div>
+<dialog id="zone-dialog" aria-labelledby="zone-title"><div id="zone-detail"></div></dialog>
+<dialog id="catalog-dialog" aria-labelledby="catalog-title"><div id="catalog-detail"></div></dialog>
+<dialog id="entry-dialog" aria-labelledby="entry-title"><form id="entry-form"><div class="dialog-header"><div><span class="eyebrow">IL MIO DIARIO</span><h2 id="entry-title">Una nuova uscita</h2></div><button type="button" class="close-button" data-close="entry-dialog" aria-label="Chiudi">×</button></div><input name="id" type="hidden">
+<div class="form-grid"><label>Data<input name="date" type="date" required></label><label>Zona<select name="area" required></select></label><label>Specie cercata<select name="species" required></select></label><label>Ritrovamenti (anche zero)<input name="count" type="number" min="0" max="999" step="1" value="0" required></label><label>Minuti di ricerca<input name="minutes" type="number" min="1" max="1440" step="1" value="120" required></label><label>Partecipanti<input name="people" type="number" min="1" max="50" step="1" value="1" required></label></div>
+<label class="notes-label">Com’era il bosco?<textarea name="notes" maxlength="1000" rows="3" placeholder="Suolo asciutto o umido, alberi, esposizione…"></textarea></label><label class="check-label"><input type="checkbox" name="confirmed"> Identificazione verificata da un esperto</label><p class="muted small">Una segnalazione non verificata rimane un appunto personale. Non prova la presenza della specie.</p><p id="entry-error" class="error-text" role="alert"></p><button class="button" type="submit">Salva uscita</button></form></dialog>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+<noscript><p class="panel">Attiva JavaScript per confrontare il meteo e utilizzare il diario. <a href="https://github.com/azzaroaleandro/mushapp">Documentazione del progetto</a>.</p></noscript>
+</body></html>

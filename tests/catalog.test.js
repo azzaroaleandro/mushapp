@@ -3,7 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {CATALOG,EDIBILITY} from '../src/catalog-data.js';
 import {filterCatalog} from '../src/catalog.js';
-import {normalizeTaxa,gbifSearchUrl,safeUrl,gbifMedia} from '../src/catalog-api.js';
+import {normalizeTaxa,gbifSearchUrl,safeUrl,gbifMedia,MEDIA_HOSTS} from '../src/catalog-api.js';
 test('all curated species have explicit sourced edibility and cautions',()=>{
  assert.equal(CATALOG.length,24);assert.equal(new Set(CATALOG.map(t=>t.id)).size,24);
  for(const t of CATALOG){assert.ok(EDIBILITY[t.status]);assert.ok(t.source.startsWith('https://natura.provincia.cuneo.it/'));assert.ok(t.caution.length>30);assert.ok(t.similar.length>10);}
@@ -24,6 +24,7 @@ test('world search is restricted to accepted species in fungi',()=>{
  assert.equal(result.results.length,1);assert.equal(result.results[0].status,'unknown');assert.equal(result.results[0].name,null);
 });
 test('external media requires permitted HTTPS host, credit and license',async()=>{
+ assert.equal(safeUrl('https://thumb.wikimedia.org.attacker.example/photo.jpg',MEDIA_HOSTS),null);
  assert.equal(safeUrl('javascript:alert(1)',['gbif.org']),null);
  assert.equal(safeUrl('https://gbif.org.attacker.example/a',['gbif.org']),null);
  const fetcher=async()=>({ok:true,json:async()=>({results:[{identifier:'https://upload.wikimedia.org/example.jpg',license:'All rights reserved',creator:'Photographer'}]})});
@@ -31,5 +32,5 @@ test('external media requires permitted HTTPS host, credit and license',async()=
 });
 
 test('every curated species has a photograph with license and attribution',()=>{
- for(const t of CATALOG){const m=MEDIA[t.id];assert.ok(m,t.id);assert.ok(safeUrl(m.url,['upload.wikimedia.org']));assert.ok(m.author.length>0);assert.match(m.license,/CC|Public domain/);assert.ok(m.source.startsWith('https://commons.wikimedia.org/'));}
+ for(const t of CATALOG){const m=MEDIA[t.id];assert.ok(m,t.id);assert.ok(safeUrl(m.url,MEDIA_HOSTS));assert.ok(m.author.length>0);assert.match(m.license,/CC|Public domain/);assert.ok(m.source.startsWith('https://commons.wikimedia.org/'));}
 });

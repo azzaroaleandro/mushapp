@@ -1,3 +1,4 @@
+export const MEDIA_HOSTS=['upload.wikimedia.org','thumb.wikimedia.org','static.inaturalist.org','inaturalist-open-data.s3.amazonaws.com'];
 export const GBIF_BACKBONE='d7dddbf4-2cf0-4f39-9b2a-bb099caae36c';
 export function gbifSearchUrl(query='',offset=0){const p=new URLSearchParams({q:query.trim(),highertaxonKey:'5',rank:'SPECIES',status:'ACCEPTED',datasetKey:GBIF_BACKBONE,limit:'24',offset:String(offset)});return 'https://api.gbif.org/v1/species/search?'+p;}
 export function normalizeTaxa(body){
@@ -10,7 +11,7 @@ export async function gbifMedia(key,{fetcher=fetch,signal}={}){
  const response=await fetcher('https://api.gbif.org/v1/species/'+Number(key)+'/media',{signal});
  if(!response.ok)return null;
  const data=await response.json();
- const item=data.results?.find(m=>safeUrl(m.identifier,['upload.wikimedia.org','static.inaturalist.org','inaturalist-open-data.s3.amazonaws.com'])&&/^https?:\/\/creativecommons.org\/(licenses\/by(-sa)?\/|publicdomain\/)/.test(m.license??'')&&m.creator);
+ const item=data.results?.find(m=>safeUrl(m.identifier,MEDIA_HOSTS)&&/^https?:\/\/creativecommons.org\/(licenses\/by(-sa)?\/|publicdomain\/)/.test(m.license??'')&&m.creator);
  if(!item)return null;
  return {url:item.identifier,author:item.creator,license:item.license,source:item.references??'https://www.gbif.org/species/'+key};
 }

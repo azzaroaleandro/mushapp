@@ -1,6 +1,6 @@
 import {CATALOG,EDIBILITY,HEALTH_SOURCE} from './catalog-data.js';
 import {MEDIA} from './catalog-media.js';
-import {searchTaxa,gbifMedia,safeUrl} from './catalog-api.js';
+import {searchTaxa,gbifMedia,safeUrl,MEDIA_HOSTS} from './catalog-api.js';
 const $=s=>document.querySelector(s);
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const normalize=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
@@ -8,7 +8,7 @@ export function filterCatalog(query,status='all'){const q=normalize(query.trim()
 function badge(status){return '<span class="edibility '+status+'">'+esc(EDIBILITY[status]??EDIBILITY.unknown)+'</span>';}
 function imageBlock(taxon,photo=MEDIA[taxon.id]){
  if(!photo)return '<div class="photo-missing">Foto non disponibile<br><span>Apri la fonte per approfondire</span></div>';
- const url=safeUrl(photo.url,['upload.wikimedia.org','static.inaturalist.org','inaturalist-open-data.s3.amazonaws.com']);
+ const url=safeUrl(photo.url,MEDIA_HOSTS);
  const source=safeUrl(photo.source,['commons.wikimedia.org','gbif.org','inaturalist.org']);
  if(!url||!source)return '<div class="photo-missing">Foto non disponibile</div>';
  return '<figure class="mushroom-photo"><img src="'+esc(url)+'" alt="Foto di riferimento: '+esc(taxon.latin)+'" loading="lazy" decoding="async"><figcaption><a href="'+esc(source)+'" target="_blank" rel="noopener noreferrer">'+esc(photo.author)+' · '+esc(photo.license)+' ↗</a><span class="photo-error" hidden>Immagine non caricata. Apri la fonte.</span></figcaption></figure>';

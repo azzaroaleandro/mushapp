@@ -1,4 +1,4 @@
-import {initCatalog} from './catalog.js?v=0.2.1';
+import {initCatalog} from './catalog.js?v=0.3.0';
 import {PROVINCES,provinceFor,inTerritory,distanceKm} from './places.js';
 import {recommend} from './recommendations.js';
 import {AREAS,SPECIES,REGIONS,MONTHS,SOURCES} from './data.js';
@@ -126,6 +126,13 @@ $('#species').addEventListener('change',e=>{state.species=e.target.value;renderZ
 $('#date').addEventListener('change',e=>{state.date=e.target.value;renderZones();});
 $('#favorites-only').addEventListener('change',renderZones);
 $('#refresh').addEventListener('click',()=>loadWeather(true));
+for(const mode of ['list','map'])$('#show-'+mode).addEventListener('click',()=>{
+ $('#explore-layout').dataset.mode=mode;
+ $('#show-list').setAttribute('aria-pressed',String(mode==='list'));
+ $('#show-map').setAttribute('aria-pressed',String(mode==='map'));
+ if(mode==='map'&&map)requestAnimationFrame(()=>map.invalidateSize());
+});
+
 $('#calendar-month').addEventListener('change',e=>{state.month=Number(e.target.value);renderCalendar();});
 $('#new-entry').addEventListener('click',()=>openEntry());
 document.addEventListener('click',e=>{
@@ -173,6 +180,6 @@ function renderProvinces(){
 }
 function renderRecommendations(){
  const rows=recommend({areas:AREAS,species:getSpecies(),bundle:state.weather,today:state.today,region:state.region,province:state.province,nearby:state.nearby,stale:!!stale()});
- const header='<div class="recommend-intro"><div><span class="eyebrow">PARTENDO DA CAMPIGLIO</span><h2 id="recommend-title">Le proposte per i prossimi giorni</h2></div><span class="small muted">Oggi + 7 giorni</span></div>';
- $('#recommendations').innerHTML=header+'<p class="small muted">Il giorno con i segnali migliori per ciascuna area, nei territori selezionati. Le distanze sono in linea d’aria da Madonna di Campiglio, non tempi di viaggio. Permessi e accessi restano da verificare.</p>'+(rows.length?'<div class="suggestion-grid">'+rows.map((r,i)=>'<article class="suggestion-card"><div class="suggestion-date">'+formatDate(r.date,{weekday:'short',day:'numeric',month:'short'})+' <span>'+Math.round(r.distance)+' km</span></div><h3>'+r.area.name+'</h3><span class="condition '+r.assessment.level+'">'+r.assessment.label+'</span><p>'+esc(r.assessment.reasons[0]??'')+'</p><span class="small muted">Affidabilità '+r.assessment.confidence.toLowerCase()+'</span><button class="text-button" data-suggest="'+r.area.id+'" data-suggest-date="'+r.date+'">Vedi proposta ↗</button></article>').join('')+'</div>':'<div class="empty recommendation-empty">'+(state.loading?'Sto cercando le finestre da confrontare…':!getSpecies().model?'Per questa specie è disponibile il calendario, non una previsione di nascita.':!state.weather?'Servono dati meteo aggiornati per proporre una zona.':'Nessuna finestra con segnali sufficienti nei territori selezionati. Puoi ampliare la ricerca togliendo “Entro 40 km da Campiglio”.')+'</div>');
+ const header='<div class="recommend-intro"><div><span class="eyebrow">OGGI + 7 GIORNI</span><h2 id="recommend-title">Quando partire</h2></div></div>';
+ $('#recommendations').innerHTML=header+'<p class="small muted recommendation-context">Le finestre da confrontare. Distanze in linea d’aria da Campiglio.</p><details class="recommendation-about"><summary>Come leggere le proposte</summary><p class="small muted">Un giorno per area, scelto dai segnali meteo nei territori selezionati. Stime sperimentali, non presenza accertata. Permessi e accessi da verificare; i chilometri non sono tempi di viaggio.</p></details>'+(rows.length?'<div class="suggestion-grid">'+rows.map((r,i)=>'<article class="suggestion-card"><div class="suggestion-date">'+formatDate(r.date,{weekday:'short',day:'numeric',month:'short'})+' <span>'+Math.round(r.distance)+' km</span></div><h3>'+r.area.name+'</h3><span class="condition '+r.assessment.level+'">'+r.assessment.label+'</span><p>'+esc(r.assessment.reasons[0]??'')+'</p><span class="small muted">Affidabilità '+r.assessment.confidence.toLowerCase()+'</span><button class="text-button" data-suggest="'+r.area.id+'" data-suggest-date="'+r.date+'">Vedi proposta ↗</button></article>').join('')+'</div>':'<div class="empty recommendation-empty">'+(state.loading?'Sto cercando le finestre da confrontare…':!getSpecies().model?'Per questa specie è disponibile il calendario, non una previsione di nascita.':!state.weather?'Servono dati meteo aggiornati per proporre una zona.':'Nessuna finestra con segnali sufficienti nei territori selezionati. Puoi ampliare la ricerca togliendo “Entro 40 km da Campiglio”.')+'</div>');
 }

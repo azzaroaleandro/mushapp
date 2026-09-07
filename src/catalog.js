@@ -1,3 +1,4 @@
+import {initFieldGuide,shapeMatches} from './field-guide.js?v=0.3.0';
 import {CATALOG,EDIBILITY,HEALTH_SOURCE} from './catalog-data.js';
 import {MEDIA} from './catalog-media.js';
 import {searchTaxa,gbifMedia,safeUrl,MEDIA_HOSTS} from './catalog-api.js?v=0.2.1';
@@ -14,17 +15,23 @@ function imageBlock(taxon,photo=MEDIA[taxon.id]){
  return '<figure class="mushroom-photo"><img src="'+esc(url)+'" alt="Foto di riferimento: '+esc(taxon.latin)+'" loading="lazy" decoding="async"><figcaption><a href="'+esc(source)+'" target="_blank" rel="noopener noreferrer">'+esc(photo.author)+' · '+esc(photo.license)+' ↗</a><span class="photo-error" hidden>Immagine non caricata. Apri la fonte.</span></figcaption></figure>';
 }
 export function initCatalog(){
- let mode='local',offset=0,total=null,end=true,results=[],controller=null,request=0,selectedKey=null;
+ let mode='local',offset=0,total=null,end=true,results=[],controller=null,request=0,selectedKey=null,guided=false;
+ const guide=initFieldGuide({onChange:()=>local(),onToggle:active=>{
+  guided=active;setMode('local');
+  $('#field-guide').hidden=!active;$('#catalog-observe').hidden=active;$('#catalog-observe').setAttribute('aria-expanded',String(active));
+  $('.catalog-tabs').hidden=active;$('#catalog-search-form').hidden=active;$('.catalog-about').hidden=active;
+  local();(active?$('#field-back'):$('#catalog-observe')).focus({preventScroll:true});
+ }});
  function wireImageErrors(root){root.querySelectorAll('.mushroom-photo img').forEach(img=>{img.addEventListener('error',()=>{img.hidden=true;img.closest('figure').querySelector('.photo-error').hidden=false;});});}
  function local(){
-  const rows=filterCatalog($('#catalog-query').value,$('#catalog-status').value);
-  $('#catalog-status-message').textContent=rows.length+' schede · selezione introduttiva, non catalogo completo delle specie.';
-  $('#catalog-grid').innerHTML=rows.length?rows.map(t=>'<article class="catalog-card">'+imageBlock(t)+'<div class="catalog-card-copy">'+badge(t.status)+'<h2>'+esc(t.name)+'</h2><p class="latin">'+esc(t.latin)+'</p><p>'+esc(t.description)+'</p><button class="text-button" type="button" data-taxon="'+t.id+'">Apri la scheda ↗</button></div></article>').join(''):'<div class="empty"><strong>Nessuna scheda trovata.</strong>Prova un sinonimo o passa all’indice mondiale per cercare altri nomi scientifici.</div>';
+  const rows=filterCatalog(guided?'':$('#catalog-query').value,guided?'all':$('#catalog-status').value).filter(t=>!guided||shapeMatches(t.id,guide.selected()));
+  $('#catalog-status-message').textContent=rows.length+(guided?' schede da confrontare · nessuna identificazione automatica.':' schede introduttive');
+  $('#catalog-grid').innerHTML=rows.length?rows.map(t=>'<article class="catalog-card">'+imageBlock(t)+'<div class="catalog-card-copy">'+(guided?'<span class="comparison-tag">Da confrontare</span>':badge(t.status))+'<h2>'+esc(t.name)+'</h2><p class="latin">'+esc(t.latin)+'</p><button class="text-button" type="button" data-taxon="'+t.id+'">Scheda ↗</button></div></article>').join(''):'<div class="empty"><strong>Nessuna scheda trovata.</strong>Prova un sinonimo o passa all’indice mondiale per cercare altri nomi scientifici.</div>';
   $('#catalog-pagination').hidden=true;wireImageErrors($('#catalog-grid'));
  }
  function show(t){
   selectedKey=null;
-  $('#catalog-detail').innerHTML='<div class="dialog-header"><div><span class="eyebrow">SCHEDA DOCUMENTATA · '+t.reviewedAt+'</span><h2 id="catalog-title">'+esc(t.name)+'</h2><p class="latin">'+esc(t.latin)+'</p></div><button type="button" class="close-button" data-close="catalog-dialog" aria-label="Chiudi">×</button></div>'+badge(t.status)+imageBlock(t)+'<p class="catalog-verdict">La classificazione riguarda la specie, non l’esemplare davanti a te.</p><div class="detail-section"><h3>Nomi comuni e sinonimi</h3><p>'+esc([t.name,...t.aliases].join(' · '))+'</p><h3>Una prima conoscenza</h3><p>'+esc(t.description)+'</p></div><div class="catalog-caution"><h3>Da leggere con attenzione</h3><p>'+esc(t.caution)+'</p><h3>Somiglianze da approfondire</h3><p>'+esc(t.similar)+'</p><p>Non è una chiave completa di identificazione. Il confronto fotografico non sostituisce l’esame dell’esemplare intero da parte di un micologo.</p></div><div class="source-list"><a href="'+esc(t.source)+'" target="_blank" rel="noopener noreferrer">Scheda della Provincia di Cuneo ↗</a><a href="'+HEALTH_SOURCE+'" target="_blank" rel="noopener noreferrer">Controllo prima del consumo ↗</a></div>';
+  $('#catalog-detail').innerHTML='<div class="dialog-header"><div><span class="eyebrow">SCHEDA DOCUMENTATA · '+t.reviewedAt+'</span><h2 id="catalog-title">'+esc(t.name)+'</h2><p class="latin">'+esc(t.latin)+'</p></div><button type="button" class="close-button" data-close="catalog-dialog" aria-label="Chiudi">×</button></div>'+badge(t.status)+(guided&&guide.photo()?'<div class="photo-comparison"><figure class="your-reference"><img src="'+esc(guide.photo())+'" alt="La tua foto, ancora da identificare"><figcaption>La tua foto · da identificare</figcaption></figure>'+imageBlock(t)+'</div>':imageBlock(t))+'<p class="catalog-verdict">La classificazione riguarda la specie, non l’esemplare davanti a te.</p><div class="detail-section"><h3>Nomi comuni e sinonimi</h3><p>'+esc([t.name,...t.aliases].join(' · '))+'</p><h3>Una prima conoscenza</h3><p>'+esc(t.description)+'</p></div><div class="catalog-caution"><h3>Da leggere con attenzione</h3><p>'+esc(t.caution)+'</p><h3>Somiglianze da approfondire</h3><p>'+esc(t.similar)+'</p><p>Non è una chiave completa di identificazione. Il confronto fotografico non sostituisce l’esame dell’esemplare intero da parte di un micologo.</p></div><div class="source-list"><a href="'+esc(t.source)+'" target="_blank" rel="noopener noreferrer">Scheda della Provincia di Cuneo ↗</a><a href="'+HEALTH_SOURCE+'" target="_blank" rel="noopener noreferrer">Controllo prima del consumo ↗</a></div>';
   wireImageErrors($('#catalog-detail'));if(!$('#catalog-dialog').open)$('#catalog-dialog').showModal();
  }
  async function world(){

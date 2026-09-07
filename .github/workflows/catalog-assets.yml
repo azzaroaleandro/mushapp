@@ -1,0 +1,18 @@
+name: Verify catalogue sources
+on:
+  push:
+    branches: [codex/mushapp-v1]
+    paths: [src/catalog-data.js, scripts/catalog-assets.mjs, .github/workflows/catalog-assets.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  catalogue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/catalog-assets.mjs

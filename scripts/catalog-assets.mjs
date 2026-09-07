@@ -13,12 +13,14 @@ async function infoFor(file,taxon){
  if(!/^(CC BY|CC0|Public domain)/i.test(license)||!author)return null;
  return {url:info.thumburl??info.url,original:info.url,source:info.descriptionurl,author,license,licenseUrl:meta.LicenseUrl?.value??null,title:file,caption:taxon.latin};
 }
+const PHOTO_OVERRIDES={marzuolus:'File:Hygrophorus marzuolus (1).jpg',citrina:'File:Amanita citrina (1).jpg'};
 const media={...MEDIA};
 let candidates=[];try{candidates=JSON.parse(await readFile(new URL('./catalog-candidates.json',import.meta.url),'utf8'));}catch{}
 const targets=[...CATALOG,...candidates.filter(t=>!CATALOG.some(c=>c.id===t.id))];
 for(const taxon of targets){
- if(media[taxon.id])continue;
+ if(media[taxon.id]&&!PHOTO_OVERRIDES[taxon.id])continue;
  try{
+  if(PHOTO_OVERRIDES[taxon.id]){const photo=await infoFor(PHOTO_OVERRIDES[taxon.id],taxon);if(!photo)throw new Error('Missing curated photo');media[taxon.id]=photo;console.log('PHOTO_OK '+taxon.id);continue;}
   for(const lang of ['en','it']){
    const p=new URLSearchParams({action:'query',format:'json',redirects:'1',prop:'pageimages',piprop:'name',titles:taxon.latin});
    const body=await json('https://'+lang+'.wikipedia.org/w/api.php?'+p),page=Object.values(body.query?.pages??{}).find(p=>p.pageimage);

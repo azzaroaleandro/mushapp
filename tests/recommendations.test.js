@@ -21,3 +21,8 @@ test('provincial filtering and general collection weekdays constrain suggestions
  assert.equal(inTerritory(AREAS[0],'ER','PR',false),false);
  assert.deepEqual(recommend({areas:AREAS,species:SPECIES[0],bundle,today:TODAY,nearby:false,province:'FE'}),[]);
 });
+
+test('Campiglio recommendations keep park eligibility explicit',()=>{
+ const rows=recommend({areas:AREAS,species:SPECIES[0],bundle,today:TODAY});
+ assert.match(rows.find(r=>r.area.id==='campiglio').legal.day,/cinque giorni/);
+});

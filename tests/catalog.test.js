@@ -1,3 +1,4 @@
+import {MEDIA} from '../src/catalog-media.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {CATALOG,EDIBILITY} from '../src/catalog-data.js';
@@ -27,4 +28,8 @@ test('external media requires permitted HTTPS host, credit and license',async()=
  assert.equal(safeUrl('https://gbif.org.attacker.example/a',['gbif.org']),null);
  const fetcher=async()=>({ok:true,json:async()=>({results:[{identifier:'https://upload.wikimedia.org/example.jpg',license:'All rights reserved',creator:'Photographer'}]})});
  assert.equal(await gbifMedia(1,{fetcher}),null);
+});
+
+test('every curated species has a photograph with license and attribution',()=>{
+ for(const t of CATALOG){const m=MEDIA[t.id];assert.ok(m,t.id);assert.ok(safeUrl(m.url,['upload.wikimedia.org']));assert.ok(m.author.length>0);assert.match(m.license,/CC|Public domain/);assert.ok(m.source.startsWith('https://commons.wikimedia.org/'));}
 });

@@ -188,5 +188,55 @@ export const MEDIA = {
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
     "title": "Agaricus_xanthodermus_section.jpg",
     "caption": "Agaricus xanthodermus"
+  },
+  "aereus": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a9/Boletus_aereus_IT.JPG/960px-Boletus_aereus_IT.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "original": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Boletus_aereus_IT.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "source": "https://commons.wikimedia.org/wiki/File:Boletus_aereus_IT.JPG",
+    "author": "Roberto Petruzzo - Latina, Italy",
+    "license": "Public domain",
+    "licenseUrl": null,
+    "title": "File:Boletus_aereus_IT.JPG",
+    "caption": "Boletus aereus"
+  },
+  "cibarius": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/2007-07-14_Cantharellus_cibarius_cropped.jpg/960px-2007-07-14_Cantharellus_cibarius_cropped.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "original": "https://upload.wikimedia.org/wikipedia/commons/e/e5/2007-07-14_Cantharellus_cibarius_cropped.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "source": "https://commons.wikimedia.org/wiki/File:2007-07-14_Cantharellus_cibarius_cropped.jpg",
+    "author": "Andreas Kunze",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "title": "File:2007-07-14 Cantharellus cibarius cropped.jpg",
+    "caption": "Cantharellus cibarius"
+  },
+  "cyanoxantha": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/0_Russula_cyanoxantha_1.jpg/960px-0_Russula_cyanoxantha_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "original": "https://upload.wikimedia.org/wikipedia/commons/b/bc/0_Russula_cyanoxantha_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "source": "https://commons.wikimedia.org/wiki/File:0_Russula_cyanoxantha_1.jpg",
+    "author": "Jean-Pol GRANDMONT",
+    "license": "CC BY 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+    "title": "File:0 Russula cyanoxantha 1.jpg",
+    "caption": "Russula cyanoxantha"
+  },
+  "esculenta": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/Giftlorchel.jpg/960px-Giftlorchel.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "original": "https://upload.wikimedia.org/wikipedia/commons/5/50/Giftlorchel.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "source": "https://commons.wikimedia.org/wiki/File:Giftlorchel.jpg",
+    "author": "Lebrac",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "title": "File:Giftlorchel.jpg",
+    "caption": "Gyromitra esculenta"
+  },
+  "campestris": {
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/2010-08-07_Agaricus_campestris_cropped.jpg/960px-2010-08-07_Agaricus_campestris_cropped.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "original": "https://upload.wikimedia.org/wikipedia/commons/f/f2/2010-08-07_Agaricus_campestris_cropped.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "source": "https://commons.wikimedia.org/wiki/File:2010-08-07_Agaricus_campestris_cropped.jpg",
+    "author": "Andreas Kunze",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "title": "File:2010-08-07_Agaricus_campestris_cropped.jpg",
+    "caption": "Agaricus campestris"
   }
 };

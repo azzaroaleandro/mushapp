@@ -3,8 +3,11 @@
 
 Il bosco, al momento giusto. Una web app in italiano per preparare uscite a funghi in **Trentino (provincia di Trento)** ed **Emilia-Romagna**.
 
-## Prima versione
-- Sei aree pilota, mappa, filtri per territorio, specie, giorno e preferiti.
+## Versione 0.2
+Nuovo [catalogo fotografico](https://azzaroaleandro.github.io/mushapp/#catalog) con 24 schede curate e ricerca nell’indice mondiale GBIF; filtri provinciali, 13 aree pilota, Campiglio come riferimento iniziale e proposte automatiche per i prossimi otto giorni. [Dettagli, fonti e limiti della v0.2](docs/CATALOGO.md).
+
+## Funzionalità di base
+- Tredici aree pilota, mappa, filtri per territorio, specie, giorno e preferiti.
 - Meteo Open-Meteo: 35 giorni antecedenti e 8 giorni di previsione; dati reali del servizio, senza risultati dimostrativi nell'app.
 - Confronto sperimentale dei segnali ambientali per quattro specie di porcino, con motivazioni e limiti leggibili.
 - Pioggia su 7/14/28 giorni, bilancio pioggia − ET₀, temperature e umidità del suolo modellata, gelo e neve.

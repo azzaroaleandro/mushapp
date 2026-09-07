@@ -54,6 +54,6 @@ export function assess(area,species,days,date,today=dateInRome(),stale=false) {
 export function seasonalSpecies(species,month) {return species.filter(s=>s.months.includes(month)).sort((a,b)=>Number(b.peak.includes(month))-Number(a.peak.includes(month)));}
 export function legalContext(area,date) {
  const weekday=new Date(date+'T12:00:00Z').getUTCDay();
- if(area.region==='TN') return {status:'Da verificare',summary:'Quadro generale Trentino: fino a 3 kg a persona al giorno, dalle 7 alle 19. Per i non residenti è generalmente richiesto il permesso comunale.',day:'Verifica Comune, eventuali esenzioni e aree vietate.'};
+ if(area.region==='TN') return {status:'Da verificare',summary:'Quadro generale Trentino: fino a 3 kg a persona al giorno, dalle 7 alle 19. Per i non residenti è generalmente richiesto il permesso comunale.',day:area.localRule??'Verifica Comune, eventuali esenzioni e aree vietate.'};
  return {status:'Da verificare',summary:'Quadro generale Emilia-Romagna: fino a 3 kg al giorno, martedì, giovedì, sabato e domenica; tesserino territoriale e deroghe locali.',day:[0,2,4,6].includes(weekday)?'Giorno nel calendario regionale generale. Non conferma il diritto di raccolta.':'Giorno normalmente escluso dal calendario regionale generale. Verifica eventuali deroghe personali e locali.'};
 }

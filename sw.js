@@ -1,5 +1,5 @@
-const CACHE='mushapp-shell-v2';
-const FILES=['./','./index.html','./styles.css','./icon.svg','./manifest.webmanifest','./src/app.js','./src/data.js','./src/places.js','./src/recommendations.js','./src/engine.js','./src/weather.js','./src/storage.js'];
+const CACHE='mushapp-shell-v3';
+const FILES=['./','./index.html','./styles.css','./icon.svg','./manifest.webmanifest','./src/app.js','./src/data.js','./src/places.js','./src/catalog.js','./src/catalog-data.js','./src/catalog-media.js','./src/catalog-api.js','./src/recommendations.js','./src/engine.js','./src/weather.js','./src/storage.js'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES))));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('mushapp-shell-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{

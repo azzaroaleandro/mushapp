@@ -1,8 +1,15 @@
 import {readFile} from 'node:fs/promises';
 import {CATALOG} from '../src/catalog-data.js';
 import {MEDIA} from '../src/catalog-media.js';
-const headers={'User-Agent':'Mushapp/0.2 (https://github.com/azzaroaleandro/mushapp; educational species catalogue)'};
-async function json(url){const r=await fetch(url,{headers,signal:AbortSignal.timeout(20000)});if(!r.ok)throw new Error('HTTP '+r.status+' '+new URL(url).hostname);return r.json();}
+const headers={'User-Agent':'Mushapp/0.4 (https://github.com/azzaroaleandro/mushapp; educational species catalogue)'};
+async function json(url){
+ for(let attempt=0;attempt<3;attempt++){
+  const r=await fetch(url,{headers,signal:AbortSignal.timeout(20000)});
+  if(r.ok)return r.json();
+  if((r.status===429||r.status>=500)&&attempt<2){await new Promise(resolve=>setTimeout(resolve,Math.min(30000,Number(r.headers.get('retry-after'))*1000||5000*(attempt+1))));continue;}
+  throw new Error('HTTP '+r.status+' '+new URL(url).hostname);
+ }
+}
 const text=html=>String(html??'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
 async function infoFor(file,taxon){
  const p=new URLSearchParams({action:'query',format:'json',prop:'imageinfo',iiprop:'url|extmetadata',iiurlwidth:'640',titles:file});
@@ -18,7 +25,7 @@ const media={...MEDIA};
 let candidates=[];try{candidates=JSON.parse(await readFile(new URL('./catalog-candidates.json',import.meta.url),'utf8'));}catch{}
 const targets=[...CATALOG,...candidates.filter(t=>!CATALOG.some(c=>c.id===t.id))];
 for(const taxon of targets){
- if(media[taxon.id]&&!PHOTO_OVERRIDES[taxon.id])continue;
+ if(media[taxon.id])continue;
  try{
   if(PHOTO_OVERRIDES[taxon.id]){const photo=await infoFor(PHOTO_OVERRIDES[taxon.id],taxon);if(!photo)throw new Error('Missing curated photo');media[taxon.id]=photo;console.log('PHOTO_OK '+taxon.id);continue;}
   for(const lang of ['en','it']){

@@ -1,4 +1,4 @@
-# Interfaccia mobile e confronto per aspetto — v0.3
+# Interfaccia mobile e confronto per aspetto — v0.4
 
 L'app resta statica, pubblicata su GitHub Pages dal solo repository mushapp. Nessun servizio a pagamento o chiave API per le fotografie.
 
@@ -8,11 +8,11 @@ Nel Catalogo, **Non conosco il nome** apre un confronto guidato. La fotocamera p
 
 La foto resta in un object URL nel browser: non viene caricata su un server, analizzata automaticamente o salvata nel diario. Si perde chiudendo o ricaricando la pagina; può essere rimossa prima. Sono ammessi JPEG, PNG e WebP fino a 15 MiB. Le immagini non decodificabili mostrano un errore.
 
-I pulsanti illustrati filtrano le 24 schede per una forma generale osservata dall'utente: pori, lamelle, pieghe, trombetta, corpo tondeggiante o lobi. Si possono scegliere più forme; le corrispondenze si uniscono. Non si assegnano probabilità né si identifica un esemplare. Una sola corrispondenza indica soltanto la copertura limitata del catalogo. Le specie tossiche restano comprese: per esempio il gruppo dei pori include Rubroboletus satanas. Nel confronto guidato il filtro di commestibilità della ricerca per nome non viene applicato.
+I pulsanti illustrati filtrano le 80 schede per una forma generale osservata dall'utente: pori, lamelle, pieghe, trombetta, corpo tondeggiante, lobi, aculei, corallo, mensola o alveoli. Si possono scegliere più forme; le corrispondenze si uniscono. Non si assegnano probabilità né si identifica un esemplare. Una sola corrispondenza indica soltanto la copertura limitata del catalogo. Le specie tossiche restano comprese: per esempio il gruppo dei pori include Rubroboletus satanas. Nel confronto guidato il filtro di commestibilità della ricerca per nome non viene applicato.
 
 Aprendo una scheda, la foto personale e quella documentata appaiono affiancate. La commestibilità descritta riguarda la specie della scheda, non il fungo fotografato.
 
-Le forme sono un indice divulgativo ricavato dalle schede della Provincia di Cuneo già collegate a ciascuna specie; non costituiscono una chiave micologica. Riferimenti rappresentativi:
+Le forme sono un indice divulgativo ricavato dalle fonti micologiche collegate a ciascuna specie; non costituiscono una chiave micologica. Riferimenti rappresentativi:
 - https://natura.provincia.cuneo.it/funghi/commestibili/boletus-edulis/
 - https://natura.provincia.cuneo.it/funghi/commestibili/cantharellus-cibarius/
 - https://natura.provincia.cuneo.it/funghi/commestibili/craterellus-cornucopioides/

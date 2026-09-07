@@ -1,17 +1,18 @@
+import {CATALOG} from './catalog-data.js?v=0.4.0';
 export const SHAPES=[
  {id:'pores',name:'A spugna',detail:'Pori sotto il cappello',path:'M7 12c1-7 17-7 18 0M7 12h18M9 15h.1m4 0h.1m4 0h.1m4 0h.1m-10 4h.1m4 0h.1m4 0h.1M14 22v5h4v-5'},
  {id:'gills',name:'A lamelle',detail:'Lamine sottili sotto',path:'M5 14c1-10 21-10 22 0M5 14h22M8 15l6 5m-2-6 3 6m5-6-3 6m7-5-6 5M14 21v6h4v-6'},
  {id:'ridges',name:'A pieghe',detail:'Rilievi spessi e irregolari',path:'M5 9q5 5 11 2t11-2M7 13l6 7m-3-7 3 2 3 5m7-7-5 7m3-6 3 3M14 20v7h4v-7'},
  {id:'funnel',name:'A trombetta',detail:'Imbuto cavo',path:'M5 7q11 9 22 0M5 7l9 17v3h4v-3l9-17M10 9q6 3 12 0'},
  {id:'round',name:'A palla',detail:'Corpo tondeggiante',path:'M6 19C3 4 28 3 26 19q-2 9-10 8Q8 28 6 19M10 11h.1m8-2h.1m4 7h.1m-9 5h.1m5 2h.1'},
- {id:'folded',name:'A lobi',detail:'Superficie molto ripiegata',path:'M8 20C0 16 7 4 12 7c2-7 10-3 10 1 7-1 9 11 2 13M12 10q-6 4 0 7m4-9q7 5 1 9m7-4q-5 3-2 6M13 21v7h7v-7'}
+ {id:'folded',name:'A lobi',detail:'Superficie molto ripiegata',path:'M8 20C0 16 7 4 12 7c2-7 10-3 10 1 7-1 9 11 2 13M12 10q-6 4 0 7m4-9q7 5 1 9m7-4q-5 3-2 6M13 21v7h7v-7'},
+ {"id":"spines","name":"Ad aculei","detail":"Piccole spine sotto","path":"M5 12c2-9 20-9 22 0H5m3 1 1 7 2-7m2 0 1 8 2-8m2 0 1 7 2-7m2 0 1 6 2-6M14 22v5h4v-5"},
+ {"id":"coral","name":"A corallo","detail":"Rametti o cespo","path":"M16 28V14m0 8-8-7V8m0 5-4-4m4 0 3-5m5 12 8-6V5m0 6 4-4m-12 9-3-6V4m3 16 8-1 3-6"},
+ {"id":"brackets","name":"A mensola","detail":"Ventagli sul legno","path":"M9 3v26m0-21c13-9 24 8 3 8H9m0 2c14-6 20 8 2 8H9M4 3v26"},
+ {"id":"honeycomb","name":"Ad alveoli","detail":"Cavità a nido d’ape","path":"M12 22C-1 16 10 3 16 3s17 15 4 19m-8 0v6h8v-6M16 5l-4 4 4 4 4-4-4-4m-5 8-3 4 5 4 3-4-5-4m10 0-5 4 3 4 5-4-3-4"}
 ];
-const GROUPS={
- pores:['edulis','reticulatus','aereus','pinophilus','satanas'],
- gills:['procera','cyanoxantha','mellea','caesarea','phalloides','verna','muscaria','pantherina','orellanus','fasciculare','involutus','emetica','sinuatum','xanthodermus','campestris'],
- ridges:['cibarius'],funnel:['cornucopioides'],round:['citrinum'],folded:['esculenta']
-};
-export function shapeMatches(id,selected=[]){return selected.length===0||selected.some(shape=>GROUPS[shape]?.includes(id));}
+const SHAPES_BY_ID=new Map(CATALOG.map(t=>[t.id,t.shapes]));
+export function shapeMatches(id,selected=[]){return selected.length===0||selected.some(shape=>SHAPES_BY_ID.get(id)?.includes(shape));}
 export function validatePhoto(file){
  if(!file)return 'Scegli una fotografia.';
  if(!['image/jpeg','image/png','image/webp'].includes(file.type))return 'Usa una foto JPEG, PNG o WebP. Per HEIC, esporta prima una copia JPEG.';

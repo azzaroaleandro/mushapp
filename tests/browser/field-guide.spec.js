@@ -1,3 +1,4 @@
+import {CATALOG} from '../../src/catalog-data.js';
 import {test,expect} from '@playwright/test';
 import {apiFixture} from '../fixtures.js';
 test.beforeEach(async({page})=>{
@@ -10,13 +11,13 @@ test('unknown-name flow uses shapes and never hides toxic references through edi
  await expect(page.locator('#catalog-search-form')).toBeHidden();
  await expect(page.locator('#field-guide')).toBeVisible();
  await page.locator('[data-shape="pores"]').click();
- await expect(page.locator('.catalog-card')).toHaveCount(5);
+ await expect(page.locator('.catalog-card')).toHaveCount(CATALOG.filter(t=>t.shapes.includes("pores")).length);
  await expect(page.locator('[data-taxon="satanas"]')).toBeVisible();
  await expect(page.locator('#catalog-grid .edibility')).toHaveCount(0);
  await expect(page.locator('#catalog-status-message')).toContainText('nessuna identificazione automatica');
  await page.locator('[data-shape="gills"]').click();
  await expect(page.locator('[data-taxon="phalloides"]')).toBeVisible();
- await page.locator('#shape-reset').click();await expect(page.locator('.catalog-card')).toHaveCount(24);
+ await page.locator('#shape-reset').click();await expect(page.locator('.catalog-card')).toHaveCount(CATALOG.length);
  await page.locator('#field-back').click();await expect(page.locator('#catalog-search-form')).toBeVisible();
  await expect(page.locator('#catalog-status')).toHaveValue('edible');
 });
@@ -56,3 +57,17 @@ for(const width of [320,390,768]){
    for(let i=0;i<b.length;i+=6000)console.log('FIELD_SHOT_'+String(i/6000).padStart(3,'0')+'='+b.slice(i,i+6000));}
  });
 }
+
+test('new visual groups expose both edible and toxic references',async({page})=>{
+ await page.setViewportSize({width:320,height:844});await page.goto('/#catalog');await page.locator('#catalog-observe').click();
+ await page.locator('[data-shape="spines"]').click();await expect(page.locator('.catalog-card')).toHaveCount(2);
+ await expect(page.locator('#catalog-grid')).toContainText('Hydnum repandum');
+ await page.locator('#shape-reset').click();await page.locator('[data-shape="coral"]').click();
+ await expect(page.locator('#catalog-grid')).toContainText('Ramaria botrytis');
+ await expect(page.locator('#catalog-grid')).toContainText('Ramaria formosa');
+ await page.locator('[data-taxon="formosa"]').click();await expect(page.locator('#catalog-dialog .edibility')).toContainText('Velenoso');
+ await page.keyboard.press('Escape');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBeTruthy();
+ await page.locator('#shape-reset').click();await page.locator('[data-shape="honeycomb"]').click();
+ await expect(page.locator('#catalog-grid')).toContainText('Morchella esculenta');
+});

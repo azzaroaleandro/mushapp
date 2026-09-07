@@ -3,8 +3,10 @@
 
 Il bosco, al momento giusto. Una web app in italiano per preparare uscite a funghi in **Trentino (provincia di Trento)** ed **Emilia-Romagna**.
 
-## Versione 0.2
-Nuovo [catalogo fotografico](https://azzaroaleandro.github.io/mushapp/#catalog) con 24 schede curate e ricerca nell’indice mondiale GBIF; filtri provinciali, 13 aree pilota, Campiglio come riferimento iniziale e proposte automatiche per i prossimi otto giorni. [Dettagli, fonti e limiti della v0.2](docs/CATALOGO.md).
+## Versione 0.4
+Nuovo [catalogo fotografico](https://azzaroaleandro.github.io/mushapp/#catalog) con **80 specie e 80 fotografie documentate** e ricerca nell’indice mondiale GBIF; filtri provinciali, 13 aree pilota, Campiglio come riferimento iniziale e proposte automatiche per i prossimi otto giorni. [Dettagli, fonti e limiti del catalogo](docs/CATALOGO.md).
+
+La funzione **Non conosco il nome** permette di confrontare una foto personale e filtrare per dieci forme illustrate. La foto resta nel browser, senza analisi automatica, caricamenti su server o servizi a pagamento. [Uso su mobile](docs/MOBILE.md).
 
 ## Funzionalità di base
 - Tredici aree pilota, mappa, filtri per territorio, specie, giorno e preferiti.

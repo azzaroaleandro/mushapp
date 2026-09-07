@@ -5,8 +5,8 @@ import {CATALOG,EDIBILITY} from '../src/catalog-data.js';
 import {filterCatalog} from '../src/catalog.js';
 import {normalizeTaxa,gbifSearchUrl,safeUrl,gbifMedia,MEDIA_HOSTS} from '../src/catalog-api.js';
 test('all curated species have explicit sourced edibility and cautions',()=>{
- assert.equal(CATALOG.length,24);assert.equal(new Set(CATALOG.map(t=>t.id)).size,24);
- for(const t of CATALOG){assert.ok(EDIBILITY[t.status]);assert.ok(t.source.startsWith('https://natura.provincia.cuneo.it/'));assert.ok(t.caution.length>30);assert.ok(t.similar.length>10);}
+ assert.equal(CATALOG.length,80);assert.equal(new Set(CATALOG.map(t=>t.id)).size,CATALOG.length);
+ for(const t of CATALOG){assert.ok(EDIBILITY[t.status]);assert.equal(new URL(t.source).protocol,'https:');assert.ok(t.sourceLabel.length>5);assert.ok(t.description.length>50);assert.ok(t.shapes.length>0);assert.ok(t.caution.length>30);assert.ok(t.similar.length>10);}
  assert.equal(CATALOG.find(t=>t.id==='phalloides').status,'deadly');
  assert.equal(CATALOG.find(t=>t.id==='esculenta').status,'toxic');
  assert.equal(CATALOG.find(t=>t.id==='mellea').status,'conditional');
@@ -33,4 +33,15 @@ test('external media requires permitted HTTPS host, credit and license',async()=
 
 test('every curated species has a photograph with license and attribution',()=>{
  for(const t of CATALOG){const m=MEDIA[t.id];assert.ok(m,t.id);assert.ok(safeUrl(m.url,MEDIA_HOSTS));assert.ok(m.author.length>0);assert.match(m.license,/CC|Public domain/);assert.ok(m.source.startsWith('https://commons.wikimedia.org/'));}
+});
+
+test('new names and statuses remain explicit rather than inferred from appearance',()=>{
+ for(const [id,status] of Object.entries({virosa:'deadly',marginata:'deadly',rubellus:'deadly',olearius:'toxic',formosa:'toxic',morchella:'conditional',rubescens:'conditional',felleus:'inedible',crispa:'unknown'}))assert.equal(CATALOG.find(t=>t.id===id).status,status,id);
+ assert.equal(filterCatalog('pioppino')[0].id,'aegerita');
+ assert.equal(filterCatalog('Agrocybe aegerita')[0].id,'aegerita');
+ assert.equal(filterCatalog('dormiente')[0].id,'marzuolus');
+ assert.ok(filterCatalog('finferlo').some(t=>t.id==='aurantiaca'));
+ assert.equal(new Set(CATALOG.map(t=>t.latin)).size,CATALOG.length);
+ assert.equal(Object.keys(MEDIA).length,CATALOG.length);
+ assert.ok(!MEDIA.marzuolus.title.includes('Bresadola'));
 });

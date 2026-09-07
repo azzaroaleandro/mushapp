@@ -5,10 +5,10 @@
 <meta name="theme-color" content="#183d32"><meta name="description" content="Scegli quando esplorare i boschi di Trentino ed Emilia-Romagna. Meteo, stagioni e diario delle tue uscite a funghi.">
 <title>Mushapp — Il bosco, al momento giusto</title>
 <link rel="icon" href="./icon.svg" type="image/svg+xml"><link rel="manifest" href="./manifest.webmanifest">
-<link rel="stylesheet" href="./styles.css?v=0.3.0">
+<link rel="stylesheet" href="./styles.css?v=0.4.0">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script type="module" src="./src/app.js?v=0.3.0"></script>
+<script type="module" src="./src/app.js?v=0.4.0"></script>
 </head>
 <body>
 <a class="skip" href="#main">Vai al contenuto</a>
@@ -23,7 +23,7 @@
 <a href="#journal" data-nav="journal" aria-label="Il mio diario"><span aria-hidden="true">▤</span> Diario</a>
 <a href="#method" data-nav="method" aria-label="Come funziona"><span aria-hidden="true">◎</span> Info</a>
 </nav>
-<div class="sidebar-bottom"><span class="eyebrow">IL NOSTRO TERRITORIO</span><p>Trentino<br>Emilia-Romagna</p><div class="version"><i></i> Prima stagione · v0.3</div></div>
+<div class="sidebar-bottom"><span class="eyebrow">IL NOSTRO TERRITORIO</span><p>Trentino<br>Emilia-Romagna</p><div class="version"><i></i> Prima stagione · v0.4</div></div>
 </aside>
 <main id="main" tabindex="-1">
 <header class="topbar"><span id="page-label">Esplora i boschi</span><span class="top-date" id="today-label"></span><span class="pilot-badge">PROGETTO PILOTA</span></header>
@@ -80,11 +80,11 @@
 <div class="shape-heading"><h3>Che aspetto ha?</h3><button id="shape-reset" class="text-button" type="button">Non so / tutte</button></div>
 <p class="small muted">Puoi scegliere più forme se sei in dubbio.</p>
 <div id="shape-options" class="shape-options" role="group" aria-label="Forme da confrontare"></div>
-<p class="field-scope">Il confronto copre solo le 24 schede introduttive: il fungo trovato può non esserci. Apri una scheda per affiancarla alla tua foto.</p>
+<p class="field-scope">Il confronto copre solo le <span data-catalog-count>80</span> schede del catalogo: il fungo trovato può non esserci. Apri una scheda per affiancarla alla tua foto.</p>
 </section>
 <div class="catalog-safety"><strong>Specie commestibile ≠ esemplare identificato.</strong><details><summary>Prima di raccogliere e consumare</summary><p>La somiglianza in foto non identifica il fungo trovato. Prima del consumo fai controllare l’esemplare da un ispettorato micologico. <a href="https://www.salute.gov.it/new/it/tema/sistema-di-controllo-della-sicurezza-alimentare/funghi-consumiamoli-sicurezza/" target="_blank" rel="noopener noreferrer">Indicazioni del Ministero della Salute ↗</a></p></details></div>
-<div class="catalog-tabs" role="group" aria-label="Tipo di catalogo"><button type="button" id="catalog-local" aria-pressed="true">Schede del bosco · 24</button><button type="button" id="catalog-world" aria-pressed="false">Indice mondiale GBIF ↗</button></div>
-<form id="catalog-search-form" class="catalog-filters"><label>Cerca un nome<input id="catalog-query" type="search" maxlength="100" placeholder="Porcino, Boletus edulis, finferlo…"></label><label id="catalog-status-label">Commestibilità della specie<select id="catalog-status"><option value="all">Tutte le categorie</option><option value="edible">Commestibile · specie</option><option value="conditional">Commestibilità condizionata</option><option value="inedible">Non commestibile</option><option value="toxic">Velenoso / tossico</option><option value="deadly">Velenoso · anche mortale</option></select></label><button class="button" type="submit">Cerca</button></form>
+<div class="catalog-tabs" role="group" aria-label="Tipo di catalogo"><button type="button" id="catalog-local" aria-pressed="true">Schede del bosco · <span data-catalog-count>80</span></button><button type="button" id="catalog-world" aria-pressed="false">Indice mondiale GBIF ↗</button></div>
+<form id="catalog-search-form" class="catalog-filters"><label>Cerca un nome<input id="catalog-query" type="search" maxlength="100" placeholder="Porcino, Boletus edulis, finferlo…"></label><label id="catalog-status-label">Commestibilità della specie<select id="catalog-status"><option value="all">Tutte le categorie</option><option value="edible">Commestibile · specie</option><option value="conditional">Commestibilità condizionata</option><option value="inedible">Non commestibile</option><option value="unknown">Commestibilità non verificata</option><option value="toxic">Velenoso / tossico</option><option value="deadly">Velenoso · anche mortale</option></select></label><button class="button" type="submit">Cerca</button></form>
 <details class="catalog-about"><summary>Copertura e nomi del catalogo</summary><p id="catalog-scope" class="small muted"></p><p class="small muted">Boletus è un genere; “porcino” è un nome comune usato per più specie. I nomi locali possono indicare funghi diversi.</p></details><p id="catalog-status-message" role="status" aria-live="polite" class="small"></p>
 <div id="catalog-grid" class="catalog-grid"></div><div id="catalog-pagination" class="catalog-pagination" hidden><button class="button secondary" id="catalog-prev" type="button">← Precedenti</button><span id="catalog-page" class="small"></span><button class="button secondary" id="catalog-next" type="button">Successivi →</button></div>
 </section>

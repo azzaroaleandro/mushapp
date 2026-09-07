@@ -9,6 +9,7 @@ test('explore, filters, favorites, details, dates and calendar',async({page})=>{
  await page.goto('/');await expect(page.locator('.zone-card')).toHaveCount(6);
  await expect(page.locator('#data-status')).toContainText('acquisiti');
  await expect(page.locator('.condition.promising').first()).toBeVisible();
+ await expect(page.locator('[data-area-card="taro"]')).toContainText('Giorno normalmente escluso');
  await page.selectOption('#region','TN');await expect(page.locator('.zone-card')).toHaveCount(3);
  await page.locator('[data-save="lagorai"]').click();await page.check('#favorites-only');await expect(page.locator('.zone-card')).toHaveCount(1);
  await page.locator('[data-detail="lagorai"]').click();await expect(page.locator('#zone-dialog').getByRole('heading',{name:'Lagorai · Valsugana',exact:true})).toBeVisible();

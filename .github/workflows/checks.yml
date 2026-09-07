@@ -19,9 +19,7 @@ jobs:
         with:
           node-version: '22'
       - name: Install pinned browser test runner
-        run: npm install --ignore-scripts --no-audit --no-fund
-      - name: Record dependency lock
-        run: node -e "console.log('MUSHAPP_LOCK=' + require('fs').readFileSync('package-lock.json', 'utf8').replace(/\\n/g, ''))"
+        run: npm ci --ignore-scripts --no-audit --no-fund
       - name: Unit tests
         run: npm test
       - name: Install Chromium

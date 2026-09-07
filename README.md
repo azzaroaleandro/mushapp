@@ -1,4 +1,6 @@
 # Mushapp 🍄
+**[Apri Mushapp](https://azzaroaleandro.github.io/mushapp/)** · [Pull request della prima versione](https://github.com/azzaroaleandro/mushapp/pull/1)
+
 Il bosco, al momento giusto. Una web app in italiano per preparare uscite a funghi in **Trentino (provincia di Trento)** ed **Emilia-Romagna**.
 
 ## Prima versione
@@ -27,12 +29,16 @@ Il workflow **Verify Mushapp** esegue:
 I test del browser usano meteo sintetico dichiarato nelle fixture, esclusivamente nei test. Non dimostrano l'accuratezza micologica del modello. Le immagini nei log sono schermate di verifica con quei dati.
 
 ## Pubblicazione
-È predisposto il workflow manuale **Publish GitHub Pages**. Per pubblicarlo da GitHub:
-1. Portare la versione verificata sul branch principale.
-2. In Settings → Pages selezionare **GitHub Actions** come sorgente.
-3. Avviare **Publish GitHub Pages** dal branch desiderato.
+L'anteprima è pubblicata su **https://azzaroaleandro.github.io/mushapp/** tramite GitHub Pages, dal branch **codex/mushapp-v1**, cartella **/ (root)**. Il branch principale conserva il punto di partenza, mentre la [PR #1](https://github.com/azzaroaleandro/mushapp/pull/1) raccoglie il lavoro da revisionare.
 
-Questi passaggi vanno completati nell'interfaccia remota di GitHub; creare il workflow non significa aver pubblicato il sito. I file sono compatibili con il sottopercorso /mushapp/. L'output è una normale app statica, senza backend.
+GitHub Pages aggiorna l'anteprima quando cambia il branch sorgente. I file sono compatibili con il sottopercorso /mushapp/. Non ci sono backend o segreti nel sito. Dopo l'integrazione della PR si potrà spostare la sorgente Pages su main.
+
+Il workflow manuale **Publish GitHub Pages** resta disponibile come alternativa per passare in futuro alla sorgente **GitHub Actions**: richiede che il workflow sia presente nel branch principale e che Settings → Pages sia configurato con tale sorgente. Non va usato insieme alla modalità corrente da branch.
+
+## Verifica della prima versione
+Il 7 settembre 2026 sono passati **22 test del motore, dati e diario**, **7 test Chromium**, oltre alla verifica del servizio meteo reale su tutte le sei aree (43 giorni per area). [Esecuzione verificata](https://github.com/azzaroaleandro/mushapp/actions/runs/34111205177).
+
+L'anteprima pubblicata è stata aperta e controllata anche nel browser con il servizio Open-Meteo effettivo e le mappe OpenStreetMap. Queste verifiche dimostrano il funzionamento tecnico del prototipo, non l'accuratezza biologica delle stime.
 
 ## Struttura
 - src/data.js: aree, specie e fonti.

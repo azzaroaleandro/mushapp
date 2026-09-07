@@ -40,9 +40,9 @@ export async function fetchWeather({fetcher=fetch,areas=AREAS}={}) {
   const data={},errors={};
   rows.forEach((row,i)=>{try{data[areas[i].id]=normalizeWeather(row);}catch(e){errors[areas[i].id]=e.message;}});
   if(!Object.keys(data).length)throw new Error('Dati meteo non utilizzabili. Riprova più tardi.');
-  return {version:1,date:dateInRome(),fetchedAt:new Date().toISOString(),data,errors};
+  return {version:2,date:dateInRome(),fetchedAt:new Date().toISOString(),data,errors};
  }catch(e){if(e.name==='AbortError')throw new Error('Il servizio meteo impiega troppo tempo. Riprova.');throw e;}
  finally{clearTimeout(timer);}
 }
 export function cacheAge(bundle,now=Date.now()) {const age=now-Date.parse(bundle?.fetchedAt);return Number.isFinite(age)&&age>=0?age:Infinity;}
-export function usableCache(bundle,now=Date.now()){return bundle?.version===1 && bundle?.date===dateInRome(new Date(now)) && cacheAge(bundle,now)<30*60e3 && !!bundle.data;}
+export function usableCache(bundle,now=Date.now()){return bundle?.version===2 && bundle?.date===dateInRome(new Date(now)) && cacheAge(bundle,now)<30*60e3 && !!bundle.data;}

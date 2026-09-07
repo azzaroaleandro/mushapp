@@ -1,3 +1,4 @@
+import {EXTRA_AREAS} from './places.js';
 export const REGIONS = {TN: 'Trentino', ER: 'Emilia-Romagna'};
 export const SOURCES = {
   weather: 'https://open-meteo.com/en/docs',
@@ -13,6 +14,7 @@ export const SOURCES = {
 // Representative points for broad pilot areas, not verified picking locations.
 // Habitat tags are editorial area hypotheses: no stand-level forest inventory is integrated.
 export const AREAS = [
+ ...EXTRA_AREAS.map(a=>({...a,permit:a.permit??SOURCES.er})),
  {id:'lagorai',name:'Lagorai · Valsugana',region:'TN',lat:46.12,lon:11.48,altitude:'900–1.600 m',hosts:['abete','faggio'],habitat:'Faggete e boschi di abete',terrain:'Versanti montani; quota e microclima cambiano molto.',permit:SOURCES.tnPermits},
  {id:'fiemme',name:'Val di Fiemme',region:'TN',lat:46.29,lon:11.49,altitude:'1.000–1.700 m',hosts:['abete','pino'],habitat:'Boschi di conifere',terrain:'Le quote più alte possono raffreddarsi rapidamente.',permit:SOURCES.tnPermits},
  {id:'sole',name:'Val di Sole',region:'TN',lat:46.33,lon:10.86,altitude:'900–1.600 m',hosts:['abete','faggio'],habitat:'Boschi montani misti',terrain:'Esposizione e umidità variano tra i due versanti.',permit:SOURCES.tnPermits},

@@ -1,3 +1,5 @@
+import {PROVINCES,provinceFor,inTerritory,distanceKm} from './places.js';
+import {recommend} from './recommendations.js';
 import {AREAS,SPECIES,REGIONS,MONTHS,SOURCES} from './data.js';
 import {assess,addDays,dateInRome,finite,seasonalSpecies,legalContext,windowBefore} from './engine.js';
 import {fetchWeather,cacheAge,usableCache} from './weather.js';
@@ -10,7 +12,7 @@ let storage;try{storage=window.localStorage;}catch{storage={getItem:()=>null,set
 const saved=safeRead(storage,KEY,{});
 const validEntries=[];
 for(const entry of Array.isArray(saved.entries)?saved.entries:[]){try{validEntries.push(validateEntry(entry));}catch{/* Ignore invalid stored entries; imports show explicit errors. */}}
-const state={today:dateInRome(),date:dateInRome(),region:'all',species:'edulis',favorites:new Set(Array.isArray(saved.favorites)?saved.favorites.filter(id=>AREAS.some(a=>a.id===id)):[]),entries:validEntries.slice(0,1000),weather:null,loading:false,error:'',month:Number(dateInRome().slice(5,7)),view:'explore',selectedArea:null};
+const state={today:dateInRome(),date:dateInRome(),region:'TN',province:'all',nearby:true,species:'edulis',favorites:new Set(Array.isArray(saved.favorites)?saved.favorites.filter(id=>AREAS.some(a=>a.id===id)):[]),entries:validEntries.slice(0,1000),weather:null,loading:false,error:'',month:Number(dateInRome().slice(5,7)),view:'explore',selectedArea:null};
 let map,markerLayer,toastTimer;
 function notify(message){$('#toast').textContent=message;$('#toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>{$('#toast').hidden=true;},5000);}
 function persist(){const ok=safeWrite(storage,KEY,{entries:state.entries,favorites:[...state.favorites]});if(!ok)notify('Salvataggio nel browser non riuscito. Esporta il diario prima di chiudere.');return ok;}
@@ -18,7 +20,7 @@ function getSpecies(){return SPECIES.find(s=>s.id===state.species);}
 function daysFor(area){const days=state.weather?.data?.[area.id]?.days;return Array.isArray(days)?days:[];}
 function stale(){return state.weather&&cacheAge(state.weather)>6*60*60e3;}
 function resultFor(area,date=state.date){return assess(area,getSpecies(),daysFor(area),date,state.today,!!stale());}
-function visibleAreas(){return AREAS.filter(a=>(state.region==='all'||a.region===state.region)&&(!$('#favorites-only').checked||state.favorites.has(a.id))).map(area=>({area,result:resultFor(area)})).sort((a,b)=>b.result.rank-a.result.rank||a.area.name.localeCompare(b.area.name,'it'));}
+function visibleAreas(){return AREAS.filter(a=>inTerritory(a,state.region,state.province,state.nearby)&&(!$('#favorites-only').checked||state.favorites.has(a.id))).map(area=>({area,result:resultFor(area)})).sort((a,b)=>b.result.rank-a.result.rank||a.area.name.localeCompare(b.area.name,'it'));}
 function options(items,selected){return items.map(x=>'<option value="'+esc(x.id)+'"'+(x.id===selected?' selected':'')+'>'+esc(x.name)+'</option>').join('');}
 function metric(value,label){return '<div><div class="metric-value">'+value+'</div><div class="metric-label">'+label+'</div></div>';}
 function renderDates(){
@@ -37,9 +39,9 @@ function renderZones(){
  $('#zone-heading').textContent=rows.length+' zone pilota';
  $('#zone-list').innerHTML=rows.length?rows.map(({area,result},i)=>{
   const x=result.features,rule=legalContext(area,state.date),weekday=new Date(state.date+'T12:00:00Z').getUTCDay(),normallyClosed=area.region==='ER'&&![0,2,4,6].includes(weekday);
-  return '<article class="zone-card '+(i===0&&result.rank>=4?'featured':'')+'" data-area-card="'+area.id+'"><div class="zone-card-top"><div><div class="zone-region">'+REGIONS[area.region]+' · '+area.altitude+'</div><h3>'+area.name+'</h3></div><button class="save-button" type="button" data-save="'+area.id+'" aria-label="'+(state.favorites.has(area.id)?'Rimuovi':'Salva')+' '+area.name+'" aria-pressed="'+state.favorites.has(area.id)+'">'+(state.favorites.has(area.id)?'★':'☆')+'</button></div><p class="zone-habitat">'+area.habitat+'</p><span class="condition '+result.level+'">'+result.label+'</span><div class="zone-metrics">'+metric(number(x.r14)+' <small>mm</small>','Pioggia · 14 gg prima')+metric(number(x.t7,1)+'°','Aria media · 7 gg prima')+metric(finite(x.soilTrend)?(x.soilTrend>.005?'↗':x.soilTrend<-.005?'↘':'→'):'—','Suolo · andamento')+'</div><p class="zone-legal '+(normallyClosed?'closed-day':'')+'">'+(normallyClosed?'Giorno normalmente escluso in Emilia-Romagna: verifica le deroghe.':'Raccolta e permessi da verificare con l’ente locale.')+'</p><div class="card-bottom"><span>Stima sperimentale</span><button class="text-button" data-detail="'+area.id+'">Esplora la zona <span aria-hidden="true">↗</span></button></div></article>';
+  return '<article class="zone-card '+(i===0&&result.rank>=4?'featured':'')+'" data-area-card="'+area.id+'"><div class="zone-card-top"><div><div class="zone-region">'+REGIONS[area.region]+' · '+provinceFor(area)+' · '+area.altitude+'</div><h3>'+area.name+'</h3></div><button class="save-button" type="button" data-save="'+area.id+'" aria-label="'+(state.favorites.has(area.id)?'Rimuovi':'Salva')+' '+area.name+'" aria-pressed="'+state.favorites.has(area.id)+'">'+(state.favorites.has(area.id)?'★':'☆')+'</button></div><p class="zone-habitat">'+area.habitat+'</p><span class="condition '+result.level+'">'+result.label+'</span><div class="zone-metrics">'+metric(number(x.r14)+' <small>mm</small>','Pioggia · 14 gg prima')+metric(number(x.t7,1)+'°','Aria media · 7 gg prima')+metric(finite(x.soilTrend)?(x.soilTrend>.005?'↗':x.soilTrend<-.005?'↘':'→'):'—','Suolo · andamento')+'</div><p class="zone-legal '+(normallyClosed?'closed-day':'')+'">'+(normallyClosed?'Giorno normalmente escluso in Emilia-Romagna: verifica le deroghe.':'Raccolta e permessi da verificare con l’ente locale.')+'</p><div class="card-bottom"><span>Stima sperimentale</span><button class="text-button" data-detail="'+area.id+'">Esplora la zona <span aria-hidden="true">↗</span></button></div></article>';
  }).join(''):'<div class="empty"><strong>Il tuo prossimo posto è da scegliere.</strong>Salva una zona con la stella oppure cambia il territorio.</div>';
- renderStatus();renderMap(rows);renderTeaser();
+ renderStatus();renderMap(rows);renderTeaser();renderRecommendations();
 }
 function initMap(){
  if(map||!window.L)return;
@@ -105,18 +107,20 @@ function route(){
 }
 async function loadWeather(force=false){
  if(state.loading)return;
- if(!force){const cached=safeRead(storage,'mushapp.weather.v1',null);if(usableCache(cached)){state.weather=cached;renderZones();return;}}
+ if(!force){const cached=safeRead(storage,'mushapp.weather.v2',null);if(usableCache(cached)){state.weather=cached;renderZones();return;}}
  state.loading=true;state.error='';$('#refresh').disabled=true;renderStatus();
- try{state.weather=await fetchWeather();safeWrite(storage,'mushapp.weather.v1',state.weather);}
- catch(e){state.error=e.message;if(!state.weather){const cached=safeRead(storage,'mushapp.weather.v1',null);if(cached?.version===1&&cached.data&&finite(cacheAge(cached)))state.weather=cached;}}
+ try{state.weather=await fetchWeather();safeWrite(storage,'mushapp.weather.v2',state.weather);}
+ catch(e){state.error=e.message;if(!state.weather){const cached=safeRead(storage,'mushapp.weather.v2',null);if(cached?.version===2&&cached.data&&finite(cacheAge(cached)))state.weather=cached;}}
  finally{state.loading=false;$('#refresh').disabled=false;renderZones();if($('#zone-dialog').open)showArea(state.selectedArea);}
 }
 $('#species').innerHTML=options(SPECIES,state.species);
 $('#calendar-month').innerHTML=MONTHS.map((m,i)=>'<option value="'+(i+1)+'"'+(i+1===state.month?' selected':'')+'>'+m+'</option>').join('');
-renderDates();renderMethod();renderZones();renderJournal();route();initMap();loadWeather();
+$('#region').value=state.region;renderProvinces();renderDates();renderMethod();renderZones();renderJournal();route();initMap();loadWeather();
 window.addEventListener('load',()=>{initMap();if(!map)$('#map').innerHTML='<div class="map-loading">Mappa non disponibile. Puoi comunque esplorare tutte le zone dall’elenco.</div>';});
 window.addEventListener('hashchange',route);
-$('#region').addEventListener('change',e=>{state.region=e.target.value;renderZones();});
+$('#region').addEventListener('change',e=>{state.region=e.target.value;state.province='all';if(state.region==='ER'){state.nearby=false;$('#nearby').checked=false;}renderProvinces();renderZones();});
+$('#province').addEventListener('change',e=>{state.province=e.target.value;renderZones();});
+$('#nearby').addEventListener('change',e=>{state.nearby=e.target.checked;if(state.nearby){state.region='TN';state.province='all';$('#region').value='TN';renderProvinces();}renderZones();});
 $('#species').addEventListener('change',e=>{state.species=e.target.value;renderZones();});
 $('#date').addEventListener('change',e=>{state.date=e.target.value;renderZones();});
 $('#favorites-only').addEventListener('change',renderZones);
@@ -127,6 +131,7 @@ document.addEventListener('click',e=>{
  const b=e.target.closest('button');if(!b)return;
  if(b.dataset.close)$('#'+b.dataset.close).close();
  if(b.dataset.save){const id=b.dataset.save;state.favorites.has(id)?state.favorites.delete(id):state.favorites.add(id);persist();renderZones();const next=document.querySelector('[data-save="'+id+'"]');next?.focus();}
+ if(b.dataset.suggest){state.date=b.dataset.suggestDate;$('#date').value=state.date;renderZones();showArea(b.dataset.suggest);}
  if(b.dataset.detail)showArea(b.dataset.detail);
  if(b.dataset.day){state.date=b.dataset.day;$('#date').value=state.date;renderZones();showArea(state.selectedArea);}
  if(b.dataset.log)openEntry(b.dataset.log);
@@ -159,3 +164,14 @@ document.addEventListener('visibilitychange',()=>{
 });
 setInterval(()=>{if(!document.hidden&&state.weather){renderStatus();if(stale())renderZones();}},60000);
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{/* App remains usable without offline shell. */});
+
+function renderProvinces(){
+ const rows=PROVINCES.filter(p=>state.region==='all'||p.region===state.region);
+ $('#province').innerHTML='<option value="all">Tutte le province</option>'+rows.map(p=>'<option value="'+p.id+'">'+p.name+'</option>').join('');
+ $('#province').value=state.province;
+}
+function renderRecommendations(){
+ const rows=recommend({areas:AREAS,species:getSpecies(),bundle:state.weather,today:state.today,region:state.region,province:state.province,nearby:state.nearby,stale:!!stale()});
+ const header='<div class="recommend-intro"><div><span class="eyebrow">PARTENDO DA CAMPIGLIO</span><h2 id="recommend-title">Le proposte per i prossimi giorni</h2></div><span class="small muted">Oggi + 7 giorni</span></div>';
+ $('#recommendations').innerHTML=header+'<p class="small muted">Il giorno con i segnali migliori per ciascuna area, nei territori selezionati. Le distanze sono in linea d’aria da Madonna di Campiglio, non tempi di viaggio. Permessi e accessi restano da verificare.</p>'+(rows.length?'<div class="suggestion-grid">'+rows.map((r,i)=>'<article class="suggestion-card"><div class="suggestion-date">'+formatDate(r.date,{weekday:'short',day:'numeric',month:'short'})+' <span>'+Math.round(r.distance)+' km</span></div><h3>'+r.area.name+'</h3><span class="condition '+r.assessment.level+'">'+r.assessment.label+'</span><p>'+esc(r.assessment.reasons[0]??'')+'</p><span class="small muted">Affidabilità '+r.assessment.confidence.toLowerCase()+'</span><button class="text-button" data-suggest="'+r.area.id+'" data-suggest-date="'+r.date+'">Vedi proposta ↗</button></article>').join('')+'</div>':'<div class="empty recommendation-empty">'+(state.loading?'Sto cercando le finestre da confrontare…':!getSpecies().model?'Per questa specie è disponibile il calendario, non una previsione di nascita.':!state.weather?'Servono dati meteo aggiornati per proporre una zona.':'Nessuna finestra con segnali sufficienti nei territori selezionati. Puoi ampliare la ricerca togliendo “Entro 40 km da Campiglio”.')+'</div>');
+}

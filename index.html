@@ -50,11 +50,14 @@
 <div class="section-intro"><div><span class="eyebrow">LA TUA PROSSIMA USCITA</span><h2>Dove ti porta il bosco?</h2></div><button id="refresh" class="button secondary" type="button">↻ Aggiorna meteo</button></div>
 <div class="filters">
 <label>Territorio<select id="region"><option value="all">Tutti i territori</option><option value="TN">Trentino</option><option value="ER">Emilia-Romagna</option></select></label>
+<label>Provincia<select id="province"></select></label>
 <label>Fungo<select id="species"></select></label>
 <label>Quando<select id="date"></select></label>
+<label class="nearby-filter"><input id="nearby" type="checkbox" checked> Entro 40 km da Campiglio</label>
 <label class="favorite-filter"><input id="favorites-only" type="checkbox"> Solo salvati</label>
 </div>
 <div class="data-status" id="data-status" role="status" aria-live="polite"></div>
+<section id="recommendations" aria-labelledby="recommend-title"></section>
 <div class="explore-layout">
 <div class="zone-column"><div class="list-heading"><h3 id="zone-heading">Zone pilota</h3><span>Ordinate per segnali meteo</span></div><div id="zone-list" class="zone-list"></div></div>
 <aside class="map-column" aria-label="Mappa delle zone"><div class="map-card"><div class="map-header"><h3>Uno sguardo al territorio</h3><span class="map-key"><i></i> Aree pilota</span></div><div id="map" role="region" aria-label="Mappa indicativa delle sei aree pilota"><div class="map-loading">Caricamento della mappa…</div></div><p class="map-note">I punti rappresentano aree ampie: non sono luoghi di raccolta verificati né indicazioni di accesso.</p></div><div class="field-note"><span class="eyebrow">UN APPUNTO PRIMA DI PARTIRE</span><h3>La pioggia è un indizio,<br>non un appuntamento.</h3><p>Non esiste una regola fissa dei “10 giorni”. Conta anche come stava il bosco prima che piovesse.</p><a href="#method">Scopri cosa osserviamo <span aria-hidden="true">→</span></a></div></aside>

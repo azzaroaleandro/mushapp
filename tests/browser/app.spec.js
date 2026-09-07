@@ -6,11 +6,11 @@ test.beforeEach(async({page})=>{
 });
 test('explore, filters, favorites, details, dates and calendar',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto('/');await expect(page.locator('.zone-card')).toHaveCount(6);
+ await page.goto('/');await page.uncheck('#nearby');await page.selectOption('#region','all');await expect(page.locator('.zone-card')).toHaveCount(13);
  await expect(page.locator('#data-status')).toContainText('acquisiti');
- await expect(page.locator('.condition.promising').first()).toBeVisible();
+ await expect(page.locator('.zone-list .condition.promising').first()).toBeVisible();
  await expect(page.locator('[data-area-card="taro"]')).toContainText('Giorno normalmente escluso');
- await page.selectOption('#region','TN');await expect(page.locator('.zone-card')).toHaveCount(3);
+ await page.selectOption('#region','TN');await expect(page.locator('.zone-card')).toHaveCount(6);
  await page.locator('[data-save="lagorai"]').click();await page.check('#favorites-only');await expect(page.locator('.zone-card')).toHaveCount(1);
  await page.locator('[data-detail="lagorai"]').click();await expect(page.locator('#zone-dialog').getByRole('heading',{name:'Lagorai · Valsugana',exact:true})).toBeVisible();
  await expect(page.locator('#zone-detail')).toContainText('Non è un’autorizzazione');
@@ -37,12 +37,12 @@ test('failed weather stays explicitly unavailable and can be retried',async({pag
  await page.route('https://api.open-meteo.com/**',r=>r.fulfill({status:503,json:{error:true}}));
  await page.goto('/');await expect(page.locator('#data-status')).toContainText('non disponibile');
  await expect(page.locator('.condition.promising')).toHaveCount(0);
- await expect(page.locator('.condition.unknown')).toHaveCount(6);
+ await expect(page.locator('.zone-list .condition.unknown')).toHaveCount(4);
  await page.route('https://api.open-meteo.com/**',r=>r.fulfill({json:apiFixture()}));
  await page.getByRole('button',{name:'Aggiorna meteo'}).click();await expect(page.locator('#data-status')).toContainText('acquisiti');
 });
 test('expired cache suspends recommendations when API is unavailable',async({page})=>{
- await page.addInitScript(()=>localStorage.setItem('mushapp.weather.v1',JSON.stringify({version:1,date:'2026-09-07',fetchedAt:'2026-09-07T00:00:00Z',data:{}})));
+ await page.addInitScript(()=>localStorage.setItem('mushapp.weather.v2',JSON.stringify({version:2,date:'2026-09-07',fetchedAt:'2026-09-07T00:00:00Z',data:{}})));
  await page.route('https://api.open-meteo.com/**',r=>r.abort());
  await page.goto('/');await expect(page.locator('#data-status')).toContainText('Stime sospese');
  await expect(page.locator('.condition.promising')).toHaveCount(0);
@@ -63,7 +63,7 @@ for(const device of [{name:'DESKTOP',width:1440,height:1000},{name:'MOBILE',widt
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBeTruthy();
   const shot=await page.screenshot({type:'jpeg',quality:65,fullPage:false});const base=shot.toString('base64');
   for(let i=0;i<base.length;i+=6000)console.log('MUSHAPP_SHOT_'+device.name+'_'+String(i/6000).padStart(3,'0')+'='+base.slice(i,i+6000));
-  await page.locator('[data-detail="lagorai"]').click();
+  await page.locator('[data-detail="campiglio"]').click();
   expect(await page.locator('#zone-dialog').evaluate(el=>el.scrollWidth<=el.clientWidth)).toBeTruthy();
   await page.keyboard.press('Escape');await expect(page.locator('#zone-dialog')).not.toBeVisible();
  });

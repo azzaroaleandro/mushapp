@@ -12,7 +12,7 @@ function imageBlock(taxon,photo=MEDIA[taxon.id]){
  const url=safeUrl(photo.url,MEDIA_HOSTS);
  const source=safeUrl(photo.source,['commons.wikimedia.org','gbif.org','inaturalist.org']);
  if(!url||!source)return '<div class="photo-missing">Foto non disponibile</div>';
- return '<figure class="mushroom-photo"><img src="'+esc(url)+'" alt="Foto di riferimento: '+esc(taxon.latin)+'" loading="lazy" decoding="async"><figcaption><a href="'+esc(source)+'" target="_blank" rel="noopener noreferrer">'+esc(photo.author)+' · '+esc(photo.license)+' ↗</a><span class="photo-error" hidden>Immagine non caricata. Apri la fonte.</span></figcaption></figure>';
+ return '<figure class="mushroom-photo"><img src="'+esc(url)+'" alt="Foto di riferimento: '+esc(taxon.latin)+'" loading="lazy" decoding="async"><figcaption><a href="'+esc(source)+'" target="_blank" rel="noopener noreferrer">'+esc(photo.author)+' · '+esc(photo.license)+' ↗</a><span class="photo-error" hidden>Immagine non caricata. <button type="button" class="text-button" data-retry-photo>Riprova</button></span></figcaption></figure>';
 }
 export function initCatalog(){
  document.querySelectorAll('[data-catalog-count]').forEach(el=>{el.textContent=String(CATALOG.length);});
@@ -23,7 +23,19 @@ export function initCatalog(){
   $('.catalog-tabs').hidden=active;$('#catalog-search-form').hidden=active;$('.catalog-about').hidden=active;
   local();(active?$('#field-back'):$('#catalog-observe')).focus({preventScroll:true});
  }});
- function wireImageErrors(root){root.querySelectorAll('.mushroom-photo img').forEach(img=>{img.addEventListener('error',()=>{img.hidden=true;img.closest('figure').querySelector('.photo-error').hidden=false;});});}
+ function wireImageErrors(root){
+  root.querySelectorAll('.mushroom-photo img').forEach(img=>{
+   const message=img.closest('figure').querySelector('.photo-error');
+   const failed=()=>{img.hidden=true;message.hidden=false;};
+   const ready=()=>{img.hidden=false;message.hidden=true;};
+   img.addEventListener('error',failed);img.addEventListener('load',ready);
+   message.querySelector('[data-retry-photo]').addEventListener('click',()=>{
+    message.hidden=true;img.hidden=false;
+    const source=img.getAttribute('src');img.removeAttribute('src');img.src=source;
+   });
+   if(img.complete){if(img.naturalWidth>0)ready();else failed();}
+  });
+ }
  function local(){
   const rows=filterCatalog(guided?'':$('#catalog-query').value,guided?'all':$('#catalog-status').value).filter(t=>!guided||shapeMatches(t.id,guide.selected()));
   $('#catalog-status-message').textContent=rows.length+' di '+CATALOG.length+(guided?' schede da confrontare · nessuna identificazione automatica.':' schede con foto');

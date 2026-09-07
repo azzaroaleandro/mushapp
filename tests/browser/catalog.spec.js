@@ -1,3 +1,4 @@
+import {MEDIA} from '../../src/catalog-media.js';
 import {CATALOG} from '../../src/catalog-data.js';
 import {test,expect} from '@playwright/test';
 import {apiFixture} from '../fixtures.js';
@@ -88,6 +89,26 @@ test('all catalogue photographs decode and retain their real visual references',
  await page.addStyleTag({content:'.app-shell{display:block!important;max-width:none!important}.sidebar,.view> :not(#catalog-grid),.topbar{display:none!important}main,.main-content{margin:0!important;padding:8px!important;max-width:none!important}.catalog-grid{display:grid!important;grid-template-columns:repeat(8,minmax(0,1fr))!important;gap:5px!important}.catalog-card{min-width:0!important}.mushroom-photo img{height:90px!important;width:100%!important;object-fit:contain!important}.mushroom-photo{height:auto!important;aspect-ratio:auto!important}.mushroom-photo figcaption,.catalog-card .edibility,.catalog-card button,.catalog-card h2{display:none!important}.catalog-card-copy{padding:4px!important}.catalog-card .latin{font-size:10px!important;line-height:1.2!important;margin:0!important}'});
  await page.locator('.mushroom-photo img').evaluateAll(imgs=>imgs.forEach(i=>{i.loading='eager';}));
  await page.evaluate(async()=>{await Promise.all([...document.querySelectorAll('.mushroom-photo img')].map(i=>i.decode().catch(()=>{})));});
+ const retries=page.locator('.photo-error:not([hidden]) [data-retry-photo]');
+ for(const button of await retries.all())await button.click();
+ await expect(page.locator('.mushroom-photo img[hidden]')).toHaveCount(0);
+ await page.evaluate(async()=>{await Promise.all([...document.querySelectorAll('.mushroom-photo img')].map(i=>i.decode()));});
  const b=(await page.screenshot({type:'jpeg',quality:75,fullPage:true})).toString('base64');
  for(let i=0;i<b.length;i+=6000)console.log('CATALOG_ALL_SHOT_'+String(i/6000).padStart(3,'0')+'='+b.slice(i,i+6000));
+});
+
+test('a temporarily failed photo can be retried without losing catalogue filters',async({page})=>{
+ let attempts=0;
+ await page.route(MEDIA.edulis.url,r=>{
+  attempts++;
+  return attempts===1?r.abort():r.fulfill({contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/l9sAAAAASUVORK5CYII=','base64')});
+ });
+ await page.goto('/#catalog');
+ const card=page.locator('.catalog-card').filter({has:page.locator('[data-taxon="edulis"]')});
+ await expect(card.locator('[data-retry-photo]')).toBeVisible();
+ await card.locator('[data-retry-photo]').click();
+ await expect(card.locator('.photo-error')).toBeHidden();
+ await expect(card.locator('img')).toBeVisible();
+ expect(await card.locator('img').evaluate(i=>i.naturalWidth)).toBeGreaterThan(0);
+ await expect(page.locator('#catalog-status-message')).toContainText('80 di 80');
 });
